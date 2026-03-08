@@ -5,30 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>HR07 - AI Beauty Analysis</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --rose: #B76E79;
-  --rose-light: #d4939c;
-  --blush: #E8B4B8;
-  --cream: #F7E7CE;
+  --dark: #1A1A1E;
+  --dark2: #2C2C2C;
+  --gold: #C9A96E;
+  --gold-light: rgba(201, 169, 110, 0.5);
+  --gold-dim: rgba(201, 169, 110, 0.3);
+  --gold-mesh: rgba(201, 169, 110, 0.12);
+  --cream: #F5F0E8;
   --white: #FFFFFF;
-  --dark: #1A1A2E;
-  --gold: #C6A24B;
-  --gold-light: #e0c97a;
-  --bg: #FFF9F5;
-  --glass-bg: rgba(255, 255, 255, 0.65);
-  --glass-border: rgba(255, 255, 255, 0.3);
-  --shadow: 0 2px 8px rgba(0,0,0,0.07);
-  --shadow-lg: 0 8px 32px rgba(183, 110, 121, 0.15);
+  --text: #2C2C2C;
+  --text-light: #666;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
   font-family: 'Be Vietnam Pro', sans-serif;
-  background: var(--bg);
-  color: var(--dark);
+  background: var(--dark);
+  color: var(--white);
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -36,1410 +33,1932 @@ body {
 
 h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 
-/* ===== BACKGROUND DECORATION ===== */
-.bg-decor {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  pointer-events: none;
-  z-index: 0;
+/* ===== HERO SECTION ===== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 40px 20px;
+  background: linear-gradient(180deg, #0D0D0F 0%, var(--dark) 50%, #1F1F23 100%);
   overflow: hidden;
 }
-.bg-decor .circle {
+
+.hero::before {
+  content: '';
   position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.3;
-}
-.bg-decor .c1 { width: 400px; height: 400px; background: var(--blush); top: -100px; right: -100px; }
-.bg-decor .c2 { width: 300px; height: 300px; background: var(--cream); bottom: 10%; left: -80px; }
-.bg-decor .c3 { width: 250px; height: 250px; background: var(--rose-light); top: 50%; right: -60px; opacity: 0.2; }
-
-/* ===== LANGUAGE SELECTOR ===== */
-.lang-bar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  background: rgba(255, 249, 245, 0.85);
-  border-bottom: 1px solid rgba(232, 180, 184, 0.2);
-  padding: 10px 20px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 4px;
-}
-.lang-btn {
-  background: none;
-  border: 1.5px solid transparent;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--dark);
-  cursor: pointer;
-  transition: all 0.25s;
-  font-family: 'Be Vietnam Pro', sans-serif;
-}
-.lang-btn:hover { background: rgba(183, 110, 121, 0.08); }
-.lang-btn.active {
-  background: var(--rose);
-  color: white;
-  border-color: var(--rose);
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at 50% 30%, rgba(201, 169, 110, 0.06) 0%, transparent 60%);
+  pointer-events: none;
 }
 
-/* ===== CONTAINER ===== */
-.container {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 0 20px 40px;
+/* Gold flowing lines decoration */
+.gold-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.gold-lines .line {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold-dim) 50%, transparent 100%);
+  animation: flowLine 8s ease-in-out infinite;
+}
+
+.gold-lines .line:nth-child(1) { top: 15%; left: -20%; width: 60%; animation-delay: 0s; }
+.gold-lines .line:nth-child(2) { top: 35%; right: -20%; width: 50%; animation-delay: 2s; }
+.gold-lines .line:nth-child(3) { top: 65%; left: -10%; width: 40%; animation-delay: 4s; }
+.gold-lines .line:nth-child(4) { top: 85%; right: -15%; width: 55%; animation-delay: 6s; }
+
+@keyframes flowLine {
+  0%, 100% { opacity: 0; transform: translateX(0); }
+  50% { opacity: 1; transform: translateX(30px); }
+}
+
+/* Corner brackets decoration */
+.corner-bracket {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-color: var(--gold-dim);
+  border-style: solid;
+  border-width: 0;
+}
+.corner-bracket.tl { top: 30px; left: 30px; border-top-width: 1px; border-left-width: 1px; }
+.corner-bracket.tr { top: 30px; right: 30px; border-top-width: 1px; border-right-width: 1px; }
+.corner-bracket.bl { bottom: 30px; left: 30px; border-bottom-width: 1px; border-left-width: 1px; }
+.corner-bracket.br { bottom: 30px; right: 30px; border-bottom-width: 1px; border-right-width: 1px; }
+
+.logo {
+  margin-bottom: 8px;
+  text-align: center;
   position: relative;
   z-index: 1;
 }
 
-/* ===== STEPS ===== */
-.step {
-  display: none;
-  animation: fadeSlideIn 0.5s ease;
-}
-.step.active { display: block; }
-
-@keyframes fadeSlideIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-@keyframes shimmer {
-  0% { background-position: -200px 0; }
-  100% { background-position: 200px 0; }
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-@keyframes countUp {
-  from { opacity: 0; transform: scale(0.5); }
-  to { opacity: 1; transform: scale(1); }
-}
-@keyframes drawLine {
-  from { stroke-dashoffset: 100; }
-  to { stroke-dashoffset: 0; }
-}
-
-/* ===== HERO / STEP 1 ===== */
-.hero {
-  text-align: center;
-  padding: 60px 0 40px;
-}
-.hero-logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 42px;
+.logo h1 {
+  font-size: 3.5rem;
   font-weight: 700;
-  letter-spacing: 2px;
-  margin-bottom: 4px;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  line-height: 1;
+  font-style: italic;
+  text-shadow: 0 0 30px rgba(201, 169, 110, 0.3);
 }
-.hero-logo span { color: var(--rose); }
-.hero-sub {
-  font-size: 12px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--rose);
-  font-weight: 500;
+
+.logo .subtitle {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.35em;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 300;
+  margin-top: 4px;
+}
+
+.hero-tagline {
+  text-align: center;
+  margin: 24px 0 36px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-tagline h2 {
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.hero-tagline h2 span {
+  color: var(--gold);
+  font-style: italic;
+}
+
+.hero-tagline p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 300;
+}
+
+/* Language selector */
+.lang-selector {
+  display: flex;
+  gap: 0;
   margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(201, 169, 110, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
 }
-.hero h2 {
-  font-size: 26px;
-  font-weight: 600;
-  line-height: 1.4;
-  margin-bottom: 12px;
+
+.lang-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 8px 16px;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  letter-spacing: 0.05em;
+}
+
+.lang-btn + .lang-btn {
+  border-left: 1px solid rgba(201, 169, 110, 0.2);
+}
+
+.lang-btn.active {
+  background: var(--gold);
   color: var(--dark);
 }
-.hero p {
-  font-size: 15px;
-  color: #666;
-  line-height: 1.6;
-  font-weight: 300;
-  max-width: 340px;
-  margin: 0 auto 36px;
-}
-.hero-features {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  margin-bottom: 36px;
-}
-.hero-feat {
-  text-align: center;
-}
-.hero-feat .icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, var(--blush), var(--cream));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  margin: 0 auto 8px;
-}
-.hero-feat span {
-  font-size: 11px;
-  color: #888;
-  font-weight: 400;
+
+.lang-btn:hover:not(.active) {
+  color: var(--gold);
+  background: rgba(201, 169, 110, 0.1);
 }
 
-/* ===== GLASS CARD ===== */
-.glass-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  border-radius: 20px;
-  padding: 28px 24px;
-  box-shadow: var(--shadow);
+/* Upload card */
+.upload-card {
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  z-index: 1;
+}
+
+.input-group {
   margin-bottom: 16px;
 }
 
-/* ===== UPLOAD AREA ===== */
+.input-group label {
+  display: block;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 6px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+}
+
+.input-row {
+  display: flex;
+  gap: 12px;
+}
+
+.input-row .input-group {
+  flex: 1;
+}
+
+.input-group input, .input-group select {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(201, 169, 110, 0.2);
+  border-radius: 8px;
+  color: var(--white);
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.input-group input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.input-group input:focus, .input-group select:focus {
+  border-color: var(--gold);
+}
+
+.input-group select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23C9A96E' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.input-group select option {
+  background: var(--dark);
+  color: var(--white);
+}
+
 .upload-zone {
-  border: 2px dashed var(--blush);
+  border: 2px dashed rgba(201, 169, 110, 0.3);
   border-radius: 16px;
-  padding: 44px 20px;
+  padding: 48px 24px;
   text-align: center;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
   position: relative;
   overflow: hidden;
-  background: rgba(247, 231, 206, 0.15);
+  margin-top: 8px;
 }
-.upload-zone:hover,
-.upload-zone.dragover {
-  border-color: var(--rose);
-  background: rgba(232, 180, 184, 0.1);
-  transform: scale(1.01);
-}
-.upload-zone.has-image {
-  border-style: solid;
-  border-color: var(--rose);
-  padding: 0;
-  background: transparent;
-}
-.upload-zone.has-image .upload-content { display: none; }
-.upload-zone img {
-  width: 100%;
-  border-radius: 14px;
-  display: none;
-}
-.upload-zone.has-image img { display: block; }
 
-.upload-content .cam-icon {
-  width: 64px;
-  height: 64px;
+.upload-zone::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(201, 169, 110, 0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.upload-zone:hover {
+  border-color: var(--gold);
+  background: rgba(201, 169, 110, 0.05);
+}
+
+.upload-zone.dragover {
+  border-color: var(--gold);
+  background: rgba(201, 169, 110, 0.08);
+}
+
+.upload-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 16px;
+  border: 2px solid var(--gold-dim);
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--rose), var(--blush));
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 16px;
-  font-size: 28px;
-  box-shadow: 0 4px 20px rgba(183, 110, 121, 0.3);
+  position: relative;
 }
-.upload-content h3 {
+
+.upload-icon svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.upload-zone h3 {
   font-family: 'Be Vietnam Pro', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 6px;
-  color: var(--dark);
-}
-.upload-content p {
-  font-size: 13px;
-  color: #999;
-}
-
-.camera-btns {
-  display: flex;
-  gap: 10px;
-  margin-top: 16px;
-}
-.camera-btn {
-  flex: 1;
-  padding: 12px;
-  border-radius: 12px;
-  border: 1.5px solid var(--blush);
-  background: white;
-  font-size: 13px;
+  font-size: 1rem;
   font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-family: 'Be Vietnam Pro', sans-serif;
-  color: var(--dark);
-}
-.camera-btn:hover {
-  border-color: var(--rose);
-  background: rgba(183, 110, 121, 0.05);
-}
-
-input[type="file"] { display: none; }
-
-/* ===== FORM ===== */
-.form-group {
-  margin-top: 20px;
-}
-.form-group label {
-  display: block;
-  font-size: 13px;
-  font-weight: 500;
-  color: #666;
+  color: var(--white);
   margin-bottom: 6px;
 }
-.form-group input {
+
+.upload-zone p {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 300;
+}
+
+.upload-zone input[type="file"] {
+  display: none;
+}
+
+/* Preview in upload zone */
+.upload-zone.has-image {
+  padding: 0;
+  border-style: solid;
+  border-color: var(--gold);
+}
+
+.upload-zone.has-image .upload-content {
+  display: none;
+}
+
+.upload-zone .preview-img {
   width: 100%;
-  padding: 14px 16px;
-  border: 1.5px solid #e8e0d8;
-  border-radius: 12px;
-  font-size: 15px;
-  font-family: 'Be Vietnam Pro', sans-serif;
-  transition: border-color 0.3s;
-  background: white;
-}
-.form-group input:focus {
-  outline: none;
-  border-color: var(--rose);
-  box-shadow: 0 0 0 3px rgba(183, 110, 121, 0.1);
+  max-height: 400px;
+  object-fit: contain;
+  border-radius: 14px;
+  display: none;
 }
 
-/* ===== PRIMARY BUTTON ===== */
-.btn-primary {
+.upload-zone.has-image .preview-img {
+  display: block;
+}
+
+/* Start button */
+.start-btn {
   width: 100%;
   padding: 16px;
-  background: linear-gradient(135deg, var(--rose), #a05a64);
-  color: white;
+  margin-top: 20px;
+  background: linear-gradient(135deg, var(--gold) 0%, #B8954F 100%);
   border: none;
-  border-radius: 14px;
-  font-size: 16px;
+  border-radius: 12px;
+  color: var(--dark);
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s;
-  margin-top: 20px;
-  font-family: 'Be Vietnam Pro', sans-serif;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.05em;
   position: relative;
   overflow: hidden;
 }
-.btn-primary::after {
+
+.start-btn::after {
   content: '';
   position: absolute;
-  top: 0; left: -100%; width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  transition: left 0.5s;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.15) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
 }
-.btn-primary:hover::after { left: 100%; }
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(183, 110, 121, 0.4);
+
+.start-btn:hover::after {
+  transform: translateX(100%);
 }
-.btn-primary:disabled {
-  opacity: 0.5;
+
+.start-btn:hover {
+  box-shadow: 0 4px 20px rgba(201, 169, 110, 0.4);
+  transform: translateY(-1px);
+}
+
+.start-btn:disabled {
+  opacity: 0.4;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
 
-/* ===== STEP 3: ANALYZING ===== */
-.analyzing-screen {
-  text-align: center;
-  padding: 50px 0;
-}
-.analyzing-face {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  margin: 0 auto 30px;
-  overflow: hidden;
-  border: 3px solid var(--blush);
-  box-shadow: var(--shadow-lg);
-  position: relative;
-}
-.analyzing-face img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.analyzing-face .scan-line {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, var(--rose), var(--gold), transparent);
-  animation: scanDown 2s ease-in-out infinite;
-  box-shadow: 0 0 20px var(--rose);
-}
-@keyframes scanDown {
-  0% { top: 0; }
-  50% { top: calc(100% - 3px); }
-  100% { top: 0; }
-}
-
-.progress-steps {
-  display: flex;
+/* ===== SCANNING SECTION ===== */
+.scan-section {
+  display: none;
+  min-height: 100vh;
+  background: var(--dark);
   flex-direction: column;
-  gap: 14px;
-  text-align: left;
-  max-width: 280px;
-  margin: 0 auto;
-}
-.progress-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 14px;
-  color: #999;
-  transition: all 0.4s;
-}
-.progress-item.active { color: var(--dark); font-weight: 500; }
-.progress-item.done { color: var(--rose); }
-.progress-item .dot {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 2px solid #ddd;
-  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
-  flex-shrink: 0;
-  transition: all 0.4s;
-}
-.progress-item.active .dot {
-  border-color: var(--rose);
-  background: rgba(183, 110, 121, 0.1);
-  animation: pulse 1.5s ease infinite;
-}
-.progress-item.done .dot {
-  border-color: var(--rose);
-  background: var(--rose);
-  color: white;
-}
-
-/* ===== STEP 4: RESULTS ===== */
-.result-section {
-  margin-bottom: 20px;
-}
-.result-section h3 {
-  font-size: 18px;
-  margin-bottom: 16px;
-  color: var(--dark);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.result-section h3 .icon-sm {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, var(--blush), var(--cream));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-}
-
-/* Face canvas */
-.face-canvas-wrap {
+  padding: 20px;
   position: relative;
+}
+
+.scan-section.active {
+  display: flex;
+}
+
+.scan-container {
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+}
+
+.scan-canvas-wrap {
+  position: relative;
+  width: 100%;
   border-radius: 16px;
   overflow: hidden;
-  margin-bottom: 16px;
+  background: #000;
+  border: 1px solid rgba(201, 169, 110, 0.2);
 }
-.face-canvas-wrap canvas {
+
+.scan-canvas-wrap img {
   width: 100%;
   display: block;
-  border-radius: 16px;
 }
 
-/* Score circles */
-.score-row {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-.score-item {
-  flex: 1;
-  text-align: center;
-  padding: 14px 8px;
-  background: rgba(247, 231, 206, 0.3);
-  border-radius: 14px;
-}
-.score-item .score-num {
-  font-family: 'Playfair Display', serif;
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--rose);
-  line-height: 1;
-}
-.score-item .score-unit {
-  font-size: 14px;
-  color: var(--rose);
-}
-.score-item .score-label {
-  font-size: 11px;
-  color: #888;
-  margin-top: 4px;
+.scan-canvas-wrap canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
-/* Big score */
-.big-score {
+/* Corner reticle */
+.reticle {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-color: var(--gold);
+  border-style: solid;
+  border-width: 0;
+  opacity: 0;
+  transition: opacity 0.5s;
+  z-index: 5;
+}
+.reticle.show { opacity: 1; }
+.reticle.tl { top: 12px; left: 12px; border-top-width: 2px; border-left-width: 2px; }
+.reticle.tr { top: 12px; right: 12px; border-top-width: 2px; border-right-width: 2px; }
+.reticle.bl { bottom: 12px; left: 12px; border-bottom-width: 2px; border-left-width: 2px; }
+.reticle.br { bottom: 12px; right: 12px; border-bottom-width: 2px; border-right-width: 2px; }
+
+/* Scan status bar */
+.scan-status {
+  margin-top: 24px;
   text-align: center;
-  padding: 28px;
-  background: linear-gradient(135deg, rgba(183, 110, 121, 0.08), rgba(247, 231, 206, 0.3));
-  border-radius: 20px;
-  margin-bottom: 20px;
-}
-.big-score .number {
-  font-family: 'Playfair Display', serif;
-  font-size: 64px;
-  font-weight: 700;
-  color: var(--rose);
-  line-height: 1;
-  animation: countUp 0.6s ease;
-}
-.big-score .number sup {
-  font-size: 28px;
-  vertical-align: top;
-  margin-top: 8px;
-  display: inline-block;
-}
-.big-score .title {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--dark);
-  margin-top: 8px;
-}
-.big-score .subtitle {
-  font-size: 13px;
-  color: #888;
-  margin-top: 4px;
 }
 
-/* Radar chart */
-.radar-wrap {
-  text-align: center;
-  margin-bottom: 20px;
-}
-.radar-wrap canvas {
-  max-width: 280px;
-  margin: 0 auto;
+.scan-status-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+  animation: blink 1s step-end infinite;
 }
 
-/* Skin type badge */
-.skin-type-badge {
-  text-align: center;
-  padding: 24px;
-  background: linear-gradient(135deg, var(--rose), #a05a64);
-  border-radius: 20px;
-  color: white;
-  margin-bottom: 20px;
-  position: relative;
+@keyframes blink {
+  50% { opacity: 0.3; }
+}
+
+.scan-progress {
+  width: 100%;
+  max-width: 300px;
+  height: 2px;
+  background: rgba(201, 169, 110, 0.15);
+  border-radius: 1px;
+  margin: 16px auto 0;
   overflow: hidden;
 }
-.skin-type-badge::before {
-  content: '';
-  position: absolute;
-  top: -50%; right: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.1), transparent 60%);
-}
-.skin-type-badge .type-label {
-  font-size: 12px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  opacity: 0.8;
-  margin-bottom: 8px;
-}
-.skin-type-badge .type-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-.skin-type-badge .type-desc {
-  font-size: 14px;
-  opacity: 0.85;
-  font-weight: 300;
+
+.scan-progress-bar {
+  height: 100%;
+  background: var(--gold);
+  border-radius: 1px;
+  width: 0%;
+  transition: width 0.3s ease;
 }
 
-/* Skin age */
-.skin-age-card {
+/* ===== RESULTS SECTION ===== */
+.results-section {
+  display: none;
+  background: var(--cream);
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+.results-section.active {
+  display: block;
+}
+
+/* Results header */
+.results-header {
+  background: linear-gradient(180deg, var(--dark) 0%, #2A2A2E 100%);
+  padding: 40px 20px 60px;
+  text-align: center;
+  position: relative;
+}
+
+.results-header::after {
+  content: '';
+  position: absolute;
+  bottom: -30px;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: var(--cream);
+  border-radius: 50% 50% 0 0;
+}
+
+.results-header h2 {
+  color: var(--gold);
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+
+.results-header p {
+  color: rgba(255,255,255,0.6);
+  font-size: 0.9rem;
+}
+
+.results-content {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Cards */
+.result-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 28px 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+}
+
+.result-card h3 {
+  font-size: 1.15rem;
+  color: var(--text);
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 20px;
-  background: rgba(247, 231, 206, 0.3);
-  border-radius: 16px;
+  gap: 10px;
+}
+
+.result-card h3 .icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--gold) 0%, #B8954F 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+/* Proportion photo */
+.proportion-photo {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  border: 1px solid rgba(201, 169, 110, 0.2);
+}
+
+.proportion-photo canvas {
+  width: 100%;
+  display: block;
+}
+
+/* Score grid */
+.score-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
   margin-bottom: 16px;
 }
-.skin-age-num {
+
+.score-item {
+  background: var(--cream);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+}
+
+.score-item .label {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  margin-bottom: 6px;
+}
+
+.score-item .value {
   font-family: 'Playfair Display', serif;
-  font-size: 48px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.score-item .unit {
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+/* Overall harmony score */
+.harmony-score {
+  text-align: center;
+  padding: 24px;
+  background: linear-gradient(135deg, #1A1A1E 0%, #2C2C2C 100%);
+  border-radius: 16px;
+  margin-top: 16px;
+}
+
+.harmony-score .big-score {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem;
   font-weight: 700;
   color: var(--gold);
   line-height: 1;
 }
-.skin-age-num span {
-  font-size: 18px;
-  font-weight: 400;
-}
-.skin-age-info .label {
-  font-size: 13px;
-  color: #888;
-}
-.skin-age-info .compare {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--rose);
-  margin-top: 2px;
-}
-.skin-age-info .percentile {
-  font-size: 12px;
-  color: #888;
+
+.harmony-score .big-label {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.6);
   margin-top: 4px;
 }
 
-/* Report */
-.ai-report {
-  background: rgba(247, 231, 206, 0.2);
-  border-radius: 14px;
-  padding: 20px;
-  font-size: 14px;
-  line-height: 1.8;
-  white-space: pre-wrap;
-  color: #444;
-  max-height: 300px;
-  overflow-y: auto;
-}
-.ai-report::-webkit-scrollbar { width: 4px; }
-.ai-report::-webkit-scrollbar-thumb { background: var(--blush); border-radius: 2px; }
-
-/* Share section */
-.share-section {
-  text-align: center;
-  padding: 10px 0;
-}
-.share-btns {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 16px;
-}
-.share-btn {
-  padding: 12px 20px;
-  border-radius: 12px;
-  border: 1.5px solid var(--blush);
-  background: white;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
+/* Skin age comparison */
+.age-compare {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-family: 'Be Vietnam Pro', sans-serif;
-  color: var(--dark);
-}
-.share-btn:hover {
-  border-color: var(--rose);
-  background: rgba(183, 110, 121, 0.05);
-  transform: translateY(-1px);
-}
-.share-btn.primary-share {
-  background: var(--rose);
-  color: white;
-  border-color: var(--rose);
-}
-.share-btn.primary-share:hover {
-  background: #a05a64;
+  justify-content: center;
+  gap: 24px;
+  margin: 20px 0;
+  padding: 20px;
+  background: var(--cream);
+  border-radius: 16px;
 }
 
-/* Skeleton */
-.skeleton {
-  background: linear-gradient(90deg, #f0e8e0 25%, #faf4ee 50%, #f0e8e0 75%);
-  background-size: 400px 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: 8px;
-}
-
-/* Footer */
-.footer {
+.age-box {
   text-align: center;
-  padding: 30px 20px;
-  color: #bbb;
-  font-size: 12px;
-  line-height: 1.6;
-}
-.footer a {
-  color: var(--rose);
-  text-decoration: none;
 }
 
-/* Reanalyze */
-.btn-outline {
+.age-box .age-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.age-box .age-val.skin { color: var(--gold); }
+.age-box .age-val.actual { color: var(--text-light); }
+
+.age-box .age-lbl {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  margin-top: 4px;
+}
+
+.age-arrow {
+  font-size: 1.2rem;
+  color: var(--gold);
+}
+
+.age-diff {
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.percentile-bar {
+  background: rgba(201, 169, 110, 0.15);
+  border-radius: 8px;
+  height: 8px;
+  position: relative;
+  margin: 12px 0 6px;
+}
+
+.percentile-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), #B8954F);
+  border-radius: 8px;
+  transition: width 1s ease;
+}
+
+.percentile-text {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  text-align: right;
+}
+
+/* Radar chart */
+.radar-wrap {
   width: 100%;
-  padding: 14px;
-  background: transparent;
-  color: var(--rose);
-  border: 1.5px solid var(--blush);
-  border-radius: 14px;
-  font-size: 15px;
+  aspect-ratio: 1;
+  max-width: 300px;
+  margin: 0 auto 16px;
+}
+
+.radar-wrap canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* Skin type */
+.skin-type-badge {
+  text-align: center;
+  padding: 24px;
+  background: linear-gradient(135deg, #1A1A1E 0%, #2C2C2C 100%);
+  border-radius: 16px;
+  margin-top: 16px;
+}
+
+.skin-type-badge .type-letter {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.skin-type-badge .type-name {
+  font-size: 1.1rem;
+  color: var(--white);
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+.skin-type-badge .type-desc {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.5);
+  margin-top: 4px;
+}
+
+/* AI Report */
+.ai-report {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text);
+  white-space: pre-wrap;
+}
+
+/* Share section */
+.share-card {
+  text-align: center;
+}
+
+.share-canvas-wrap {
+  margin-bottom: 20px;
+}
+
+.share-canvas-wrap canvas {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.share-btns {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.share-btn {
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: none;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
-  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
+}
+
+.share-btn.fb {
+  background: #1877F2;
+  color: var(--white);
+}
+
+.share-btn.download {
+  background: linear-gradient(135deg, var(--gold), #B8954F);
+  color: var(--dark);
+}
+
+.share-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Restart */
+.restart-btn {
+  display: block;
+  margin: 32px auto 0;
+  padding: 14px 40px;
+  background: transparent;
+  border: 1px solid var(--gold);
+  border-radius: 10px;
+  color: var(--gold);
   font-family: 'Be Vietnam Pro', sans-serif;
-}
-.btn-outline:hover {
-  background: rgba(183, 110, 121, 0.05);
-  border-color: var(--rose);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  /* Override cream background context */
+  background: var(--dark);
 }
 
-/* Hidden canvas for share image */
-#shareCanvas { display: none; }
+.restart-btn:hover {
+  background: var(--gold);
+  color: var(--dark);
+}
 
-/* Responsive tweaks */
-@media (max-width: 360px) {
-  .hero h2 { font-size: 22px; }
-  .big-score .number { font-size: 52px; }
-  .score-item .score-num { font-size: 22px; }
+/* ===== LOADING / ERROR ===== */
+.error-toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #e74c3c;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  z-index: 9999;
+  display: none;
+  max-width: 90%;
+  text-align: center;
+}
+
+.error-toast.show {
+  display: block;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from { transform: translateX(-50%) translateY(-20px); opacity: 0; }
+  to { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+  .logo h1 { font-size: 2.8rem; }
+  .hero-tagline h2 { font-size: 1.3rem; }
+  .upload-zone { padding: 36px 20px; }
+  .lang-btn { padding: 7px 12px; font-size: 0.7rem; }
+  .result-card { padding: 22px 18px; }
+  .score-item .value { font-size: 1.3rem; }
 }
 </style>
 </head>
 <body>
 
-<div class="bg-decor">
-  <div class="circle c1"></div>
-  <div class="circle c2"></div>
-  <div class="circle c3"></div>
-</div>
+<div id="errorToast" class="error-toast"></div>
 
-<!-- Language Bar -->
-<div class="lang-bar">
-  <button class="lang-btn active" onclick="setLang('vi')">VI</button>
-  <button class="lang-btn" onclick="setLang('zh')">中文</button>
-  <button class="lang-btn" onclick="setLang('ja')">日本語</button>
-  <button class="lang-btn" onclick="setLang('ko')">한국어</button>
-</div>
+<!-- ===== STEP 1: HERO + UPLOAD ===== -->
+<section class="hero" id="heroSection">
+  <div class="gold-lines">
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
+  <div class="corner-bracket tl"></div>
+  <div class="corner-bracket tr"></div>
+  <div class="corner-bracket bl"></div>
+  <div class="corner-bracket br"></div>
 
-<div class="container">
+  <div class="logo">
+    <h1>HR07</h1>
+    <div class="subtitle">BEAUTY CLINIC</div>
+  </div>
 
-  <!-- ===== STEP 1: HERO ===== -->
-  <div class="step active" id="step1">
-    <div class="hero">
-      <div class="hero-logo">HR<span>07</span></div>
-      <div class="hero-sub" data-i18n="heroSub">Beauty Clinic</div>
-      <h2 data-i18n="heroTitle">Phân tích sắc đẹp AI miễn phí</h2>
-      <p data-i18n="heroDesc">Khám phá tỷ lệ vàng khuôn mặt và tình trạng làn da của bạn chỉ trong 30 giây</p>
+  <div class="hero-tagline">
+    <h2 data-i18n="heroTitle">Phân tích sắc đẹp bằng <span>AI</span></h2>
+    <p data-i18n="heroSub">Công nghệ nhận diện khuôn mặt + AI da chuyên sâu</p>
+  </div>
 
-      <div class="hero-features">
-        <div class="hero-feat">
-          <div class="icon">&#x1F4D0;</div>
-          <span data-i18n="feat1">Tỷ lệ vàng</span>
-        </div>
-        <div class="hero-feat">
-          <div class="icon">&#x2728;</div>
-          <span data-i18n="feat2">Phân tích da</span>
-        </div>
-        <div class="hero-feat">
-          <div class="icon">&#x1F48E;</div>
-          <span data-i18n="feat3">Tư vấn AI</span>
-        </div>
-      </div>
-    </div>
+  <div class="lang-selector">
+    <button class="lang-btn active" data-lang="vi">VI</button>
+    <button class="lang-btn" data-lang="zh">中文</button>
+    <button class="lang-btn" data-lang="ja">日本語</button>
+    <button class="lang-btn" data-lang="ko">한국어</button>
+  </div>
 
-    <div class="glass-card">
-      <div class="upload-zone" id="uploadZone">
-        <div class="upload-content">
-          <div class="cam-icon">&#x1F4F8;</div>
-          <h3 data-i18n="uploadTitle">Chụp ảnh selfie</h3>
-          <p data-i18n="uploadDesc">Khuôn mặt rõ ràng, ánh sáng tốt</p>
-        </div>
-        <img id="preview" alt="Preview">
-      </div>
-
-      <div class="camera-btns">
-        <button class="camera-btn" onclick="document.getElementById('cameraInput').click()">
-          &#x1F4F7; <span data-i18n="btnCamera">Chụp ảnh</span>
-        </button>
-        <button class="camera-btn" onclick="document.getElementById('fileInput').click()">
-          &#x1F5BC; <span data-i18n="btnGallery">Thư viện</span>
-        </button>
-      </div>
-      <input type="file" id="cameraInput" accept="image/*" capture="user" onchange="handleFile(this)">
-      <input type="file" id="fileInput" accept="image/*" onchange="handleFile(this)">
-
-      <div class="form-group">
+  <div class="upload-card">
+    <div class="input-row">
+      <div class="input-group">
         <label data-i18n="nameLabel">Tên của bạn</label>
-        <input type="text" id="userName" data-i18n-placeholder="namePlaceholder" placeholder="Ví dụ: Nguyễn Văn A">
+        <input type="text" id="userName" data-i18n-placeholder="namePlaceholder" placeholder="Nhập tên">
       </div>
-
-      <button class="btn-primary" id="startBtn" onclick="startAnalysis()" disabled>
-        <span data-i18n="btnStart">&#x2728; Bắt đầu phân tích</span>
-      </button>
+      <div class="input-group">
+        <label data-i18n="birthYearLabel">Năm sinh</label>
+        <select id="birthYear"></select>
+      </div>
     </div>
 
-    <div class="footer">
-      <p>HR07 Beauty Clinic &middot; Quận 3, TP.HCM</p>
-      <p data-i18n="footerNote">Kết quả mang tính tham khảo &middot; AI Analysis</p>
+    <div class="upload-zone" id="uploadZone">
+      <div class="upload-content">
+        <div class="upload-icon">
+          <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        </div>
+        <h3 data-i18n="uploadTitle">Tải ảnh selfie lên</h3>
+        <p data-i18n="uploadHint">Chạm để chọn hoặc kéo thả ảnh</p>
+      </div>
+      <img class="preview-img" id="previewImg" alt="preview">
+      <input type="file" id="fileInput" accept="image/*">
     </div>
+
+    <button class="start-btn" id="startBtn" disabled data-i18n="startBtn">Bắt đầu phân tích</button>
   </div>
+</section>
 
-  <!-- ===== STEP 2: ANALYZING ===== -->
-  <div class="step" id="step2">
-    <div class="analyzing-screen">
-      <div class="analyzing-face">
-        <img id="analyzePreview" alt="Analyzing">
-        <div class="scan-line"></div>
-      </div>
-
-      <h3 style="margin-bottom: 24px;" data-i18n="analyzingTitle">Đang phân tích...</h3>
-
-      <div class="progress-steps" id="progressSteps">
-        <div class="progress-item active" id="prog1">
-          <div class="dot">1</div>
-          <span data-i18n="prog1">Phát hiện khuôn mặt</span>
-        </div>
-        <div class="progress-item" id="prog2">
-          <div class="dot">2</div>
-          <span data-i18n="prog2">Đo tỷ lệ vàng</span>
-        </div>
-        <div class="progress-item" id="prog3">
-          <div class="dot">3</div>
-          <span data-i18n="prog3">Phân tích làn da (AI)</span>
-        </div>
-        <div class="progress-item" id="prog4">
-          <div class="dot">4</div>
-          <span data-i18n="prog4">Tạo báo cáo cá nhân</span>
-        </div>
+<!-- ===== STEP 2: SCANNING ===== -->
+<section class="scan-section" id="scanSection">
+  <div class="scan-container">
+    <div class="scan-canvas-wrap" id="scanWrap">
+      <img id="scanImg" alt="scan">
+      <canvas id="scanCanvas"></canvas>
+      <div class="reticle tl"></div>
+      <div class="reticle tr"></div>
+      <div class="reticle bl"></div>
+      <div class="reticle br"></div>
+    </div>
+    <div class="scan-status">
+      <div class="scan-status-text" id="scanStatusText">SCANNING...</div>
+      <div class="scan-progress">
+        <div class="scan-progress-bar" id="scanProgressBar"></div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- ===== STEP 3: RESULTS ===== -->
-  <div class="step" id="step3">
-    <!-- Hero result -->
-    <div style="text-align:center; padding: 30px 0 10px;">
-      <div class="hero-logo" style="font-size:32px;">HR<span>07</span></div>
-      <p style="font-size:13px; color:#888; margin-top:4px;" data-i18n="resultSubtitle">AI Beauty Analysis Report</p>
-    </div>
+<!-- ===== STEP 3: RESULTS ===== -->
+<section class="results-section" id="resultsSection">
+  <div class="results-header">
+    <h2 data-i18n="resultsTitle">Kết quả phân tích</h2>
+    <p id="resultsName"></p>
+  </div>
 
-    <!-- Section 1: Face Proportions -->
-    <div class="result-section glass-card">
-      <h3><span class="icon-sm">&#x1F4D0;</span> <span data-i18n="s1Title">Tỷ lệ khuôn mặt</span></h3>
+  <div class="results-content">
 
-      <div class="face-canvas-wrap">
-        <canvas id="faceCanvas"></canvas>
+    <!-- Section A: Face Proportion -->
+    <div class="result-card">
+      <h3><span class="icon">📐</span> <span data-i18n="proportionTitle">Phân tích tỷ lệ khuôn mặt</span></h3>
+      <div class="proportion-photo">
+        <canvas id="proportionCanvas"></canvas>
       </div>
-
-      <div class="big-score" id="harmonyScore">
-        <div class="number" id="harmonyNum">--<sup>%</sup></div>
-        <div class="title" data-i18n="harmonyTitle">Face Harmony Score</div>
-        <div class="subtitle" data-i18n="harmonyDesc">Chỉ số hài hòa khuôn mặt</div>
-      </div>
-
-      <div class="score-row" id="faceScores">
-        <div class="score-item">
-          <div class="score-num" id="goldenScore">--<span class="score-unit">%</span></div>
-          <div class="score-label" data-i18n="lblGolden">Tỷ lệ vàng</div>
-        </div>
-        <div class="score-item">
-          <div class="score-num" id="symmetryScore">--<span class="score-unit">%</span></div>
-          <div class="score-label" data-i18n="lblSymmetry">Đối xứng</div>
-        </div>
-        <div class="score-item">
-          <div class="score-num" id="threeScore">--<span class="score-unit">%</span></div>
-          <div class="score-label" data-i18n="lblThree">Tam đình</div>
-        </div>
+      <div class="score-grid" id="proportionScores"></div>
+      <div class="harmony-score">
+        <div class="big-score" id="harmonyScore">--</div>
+        <div class="big-label" data-i18n="harmonyLabel">Face Harmony Score</div>
       </div>
     </div>
 
-    <!-- Section 2: Skin Analysis -->
-    <div class="result-section glass-card" id="skinSection">
-      <h3><span class="icon-sm">&#x2728;</span> <span data-i18n="s2Title">Phân tích làn da</span></h3>
-
-      <div class="skin-type-badge" id="skinTypeBadge">
-        <div class="type-label" data-i18n="skinTypeLabel">Loại da của bạn</div>
-        <div class="type-name" id="skinTypeName">--</div>
-        <div class="type-desc" id="skinTypeDesc">--</div>
-      </div>
-
-      <div class="skin-age-card" id="skinAgeCard">
-        <div>
-          <div class="skin-age-num" id="skinAgeNum">--<span data-i18n="ageUnit"> tuổi</span></div>
-        </div>
-        <div class="skin-age-info">
-          <div class="label" data-i18n="skinAgeLabel">Tuổi da ước tính</div>
-          <div class="compare" id="skinAgeCompare">--</div>
-          <div class="percentile" id="skinPercentile">--</div>
-        </div>
-      </div>
-
+    <!-- Section B: Skin Analysis -->
+    <div class="result-card" id="skinCard" style="display:none;">
+      <h3><span class="icon">🔬</span> <span data-i18n="skinTitle">Phân tích da AI</span></h3>
       <div class="radar-wrap">
-        <canvas id="radarCanvas" width="280" height="280"></canvas>
+        <canvas id="radarCanvas"></canvas>
       </div>
+      <div class="age-compare" id="ageCompare"></div>
+      <div class="age-diff" id="ageDiff"></div>
+      <div class="percentile-bar"><div class="percentile-fill" id="percentileFill"></div></div>
+      <div class="percentile-text" id="percentileText"></div>
+      <div class="skin-type-badge" id="skinTypeBadge" style="display:none;"></div>
     </div>
 
-    <!-- Section 3: AI Report -->
-    <div class="result-section glass-card" id="reportSection">
-      <h3><span class="icon-sm">&#x1F48E;</span> <span data-i18n="s3Title">Tư vấn từ AI</span></h3>
-      <div class="ai-report" id="aiReport">
-        <div class="skeleton" style="height:16px; width:90%; margin-bottom:10px;"></div>
-        <div class="skeleton" style="height:16px; width:75%; margin-bottom:10px;"></div>
-        <div class="skeleton" style="height:16px; width:85%; margin-bottom:10px;"></div>
-        <div class="skeleton" style="height:16px; width:60%;"></div>
-      </div>
+    <!-- Section C: AI Report -->
+    <div class="result-card" id="reportCard" style="display:none;">
+      <h3><span class="icon">🤖</span> <span data-i18n="reportTitle">Báo cáo AI</span></h3>
+      <div class="ai-report" id="aiReport"></div>
     </div>
 
-    <!-- Section 4: Share -->
-    <div class="result-section glass-card">
-      <h3><span class="icon-sm">&#x1F4E4;</span> <span data-i18n="s4Title">Chia sẻ kết quả</span></h3>
-      <p style="font-size:13px; color:#888; margin-bottom:12px;" data-i18n="shareDesc">Chia sẻ để bạn bè cũng được phân tích miễn phí!</p>
+    <!-- Section D: Share -->
+    <div class="result-card share-card" id="shareCard" style="display:none;">
+      <h3><span class="icon">📤</span> <span data-i18n="shareTitle">Chia sẻ kết quả</span></h3>
+      <div class="share-canvas-wrap">
+        <canvas id="shareCanvas" width="540" height="960"></canvas>
+      </div>
       <div class="share-btns">
-        <button class="share-btn primary-share" onclick="generateShareImage()">
-          &#x1F4F1; <span data-i18n="btnDownload">Tải ảnh</span>
+        <button class="share-btn fb" onclick="shareFacebook()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Facebook
         </button>
-        <button class="share-btn" onclick="shareFacebook()">
-          &#x1F310; Facebook
-        </button>
-        <button class="share-btn" onclick="shareNative()">
-          &#x1F4E4; <span data-i18n="btnShare">Chia sẻ</span>
+        <button class="share-btn download" onclick="downloadShare()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1A1A1E"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="#1A1A1E" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="downloadBtn">Tải ảnh</span>
         </button>
       </div>
     </div>
 
-    <button class="btn-outline" onclick="resetAll()">
-      &#x1F504; <span data-i18n="btnRetry">Phân tích lại</span>
-    </button>
-
-    <div class="footer">
-      <p>HR07 Beauty Clinic &middot; Quận 3, TP.HCM</p>
-      <p><a href="https://hr07.zeabur.app">hr07.zeabur.app</a></p>
-    </div>
+    <button class="restart-btn" onclick="restart()" data-i18n="restartBtn">Phân tích lại</button>
   </div>
-
-</div>
-
-<canvas id="shareCanvas"></canvas>
+</section>
 
 <script>
-// ==================== TRANSLATIONS ====================
-const T = {
+// ========================================================
+// TRANSLATIONS
+// ========================================================
+const I18N = {
   vi: {
-    heroSub: 'Beauty Clinic',
-    heroTitle: 'Phân tích sắc đẹp AI miễn phí',
-    heroDesc: 'Khám phá tỷ lệ vàng khuôn mặt và tình trạng làn da của bạn chỉ trong 30 giây',
-    feat1: 'Tỷ lệ vàng', feat2: 'Phân tích da', feat3: 'Tư vấn AI',
-    uploadTitle: 'Chụp ảnh selfie', uploadDesc: 'Khuôn mặt rõ ràng, ánh sáng tốt',
-    btnCamera: 'Chụp ảnh', btnGallery: 'Thư viện',
-    nameLabel: 'Tên của bạn', namePlaceholder: 'Ví dụ: Nguyễn Văn A',
-    btnStart: '&#x2728; Bắt đầu phân tích',
-    footerNote: 'Kết quả mang tính tham khảo',
-    analyzingTitle: 'Đang phân tích...',
-    prog1: 'Phát hiện khuôn mặt', prog2: 'Đo tỷ lệ vàng',
-    prog3: 'Phân tích làn da (AI)', prog4: 'Tạo báo cáo cá nhân',
-    resultSubtitle: 'Báo cáo phân tích sắc đẹp AI',
-    s1Title: 'Tỷ lệ khuôn mặt',
-    harmonyTitle: 'Face Harmony Score', harmonyDesc: 'Chỉ số hài hòa khuôn mặt',
-    lblGolden: 'Tỷ lệ vàng', lblSymmetry: 'Đối xứng', lblThree: 'Tam đình',
-    s2Title: 'Phân tích làn da',
-    skinTypeLabel: 'Loại da của bạn',
-    ageUnit: ' tuổi', skinAgeLabel: 'Tuổi da ước tính',
-    s3Title: 'Tư vấn từ AI', s4Title: 'Chia sẻ kết quả',
-    shareDesc: 'Chia sẻ để bạn bè cũng được phân tích miễn phí!',
-    btnDownload: 'Tải ảnh', btnShare: 'Chia sẻ', btnRetry: 'Phân tích lại',
-    percentileText: 'Làn da của bạn đẹp hơn {pct}% người cùng tuổi',
-    youngerText: 'Trẻ hơn {n} tuổi so với tuổi thật',
-    olderText: 'Lớn hơn {n} tuổi so với tuổi thật',
-    sameAgeText: 'Đúng với tuổi thật',
-    errorTitle: 'Không thể phân tích',
-    errorNoFace: 'Không phát hiện được khuôn mặt. Vui lòng chụp lại với ánh sáng tốt hơn.',
-    errorNetwork: 'Lỗi kết nối. Vui lòng thử lại.',
-    alertNoPhoto: 'Vui lòng chọn ảnh trước!',
-    radarLabels: ['Độ ẩm', 'Sáng khỏe', 'Săn chắc', 'Đều màu', 'Lỗ chân lông', 'Tươi sáng'],
-    skinTypes: {
-      S: { name: 'Da Pha Lê', desc: 'Trong suốt, tỏa sáng tự nhiên' },
-      K: { name: 'Da Sen', desc: 'Tinh tế, cần được chăm sóc nhẹ nhàng' },
-      D: { name: 'Da Ngọc Trai', desc: 'Rạng rỡ, tràn đầy sức sống' },
-      H: { name: 'Da Hoa Hồng', desc: 'Vẻ đẹp phức hợp, đa sắc thái' }
-    },
-    shareTitle: 'Kết Quả Phân Tích Sắc Đẹp',
-    shareFaceScore: 'Hài hòa khuôn mặt',
-    shareSkinAge: 'Tuổi da',
-    shareCTA: 'Quét QR để phân tích miễn phí',
+    heroTitle: 'Phân tích sắc đẹp bằng <span>AI</span>',
+    heroSub: 'Công nghệ nhận diện khuôn mặt + AI da chuyên sâu',
+    nameLabel: 'Tên của bạn',
+    namePlaceholder: 'Nhập tên',
+    birthYearLabel: 'Năm sinh',
+    uploadTitle: 'Tải ảnh selfie lên',
+    uploadHint: 'Chạm để chọn hoặc kéo thả ảnh',
+    startBtn: 'Bắt đầu phân tích',
+    resultsTitle: 'Kết quả phân tích',
+    proportionTitle: 'Phân tích tỷ lệ khuôn mặt',
+    harmonyLabel: 'Điểm hài hòa khuôn mặt',
+    skinTitle: 'Phân tích da AI',
+    reportTitle: 'Báo cáo AI',
+    shareTitle: 'Chia sẻ kết quả',
+    downloadBtn: 'Tải ảnh',
+    restartBtn: 'Phân tích lại',
+    scanning: 'ĐANG QUÉT...',
+    detecting: 'NHẬN DIỆN LANDMARK...',
+    analyzing: 'PHÂN TÍCH TỶ LỆ...',
+    aiAnalyzing: 'AI ĐANG PHÂN TÍCH DA...',
+    sanTing: 'Ba đoạn (三庭)',
+    wuYan: 'Năm mắt (五眼)',
+    symmetry: 'Đối xứng',
+    goldenRatio: 'Tỷ lệ vàng',
+    skinAge: 'Tuổi da',
+    actualAge: 'Tuổi thực',
+    skinBetter: 'Da bạn tốt hơn {0}% người cùng tuổi',
+    typeS: 'Da Pha Lê',
+    typeK: 'Da Sen',
+    typeD: 'Da Ngọc Trai',
+    typeH: 'Da Hoa Hồng',
+    shareText: 'Kết quả phân tích sắc đẹp AI của tôi',
   },
   zh: {
-    heroSub: 'Beauty Clinic',
-    heroTitle: '免費 AI 美麗分析',
-    heroDesc: '30秒內發現您的黃金比例和肌膚狀態',
-    feat1: '黃金比例', feat2: '肌膚分析', feat3: 'AI 諮詢',
-    uploadTitle: '拍攝自拍照', uploadDesc: '面部清晰、光線充足',
-    btnCamera: '拍照', btnGallery: '相簿',
-    nameLabel: '您的姓名', namePlaceholder: '例：王小明',
-    btnStart: '&#x2728; 開始分析',
-    footerNote: '結果僅供參考',
-    analyzingTitle: '分析中...',
-    prog1: '偵測面部', prog2: '測量黃金比例',
-    prog3: '肌膚 AI 分析', prog4: '生成個人報告',
-    resultSubtitle: 'AI 美麗分析報告',
-    s1Title: '面部比例',
-    harmonyTitle: '面部和諧分數', harmonyDesc: '面部整體和諧度指標',
-    lblGolden: '黃金比例', lblSymmetry: '對稱度', lblThree: '三停比例',
-    s2Title: '肌膚分析',
-    skinTypeLabel: '您的膚質',
-    ageUnit: ' 歲', skinAgeLabel: '估計膚齡',
-    s3Title: 'AI 專業建議', s4Title: '分享結果',
-    shareDesc: '分享給朋友也來免費分析！',
-    btnDownload: '下載圖片', btnShare: '分享', btnRetry: '重新分析',
-    percentileText: '您的膚質超越同齡 {pct}% 的人',
-    youngerText: '比實際年齡年輕 {n} 歲',
-    olderText: '比實際年齡大 {n} 歲',
-    sameAgeText: '與實際年齡相符',
-    errorTitle: '無法分析',
-    errorNoFace: '未偵測到面部，請在光線充足處重新拍攝。',
-    errorNetwork: '連線錯誤，請重試。',
-    alertNoPhoto: '請先選擇照片！',
-    radarLabels: ['保濕度', '透亮度', '緊緻度', '均勻度', '毛孔', '光澤度'],
-    skinTypes: {
-      S: { name: '水晶肌', desc: '通透明亮，自然發光' },
-      K: { name: '蓮花肌', desc: '細膩溫潤，需要呵護' },
-      D: { name: '珍珠肌', desc: '光彩照人，活力充沛' },
-      H: { name: '玫瑰肌', desc: '複合之美，多彩多姿' }
-    },
-    shareTitle: '美麗分析結果',
-    shareFaceScore: '面部和諧',
-    shareSkinAge: '膚齡',
-    shareCTA: '掃碼免費分析',
+    heroTitle: 'AI <span>美容</span>分析',
+    heroSub: '面部識別技術 + AI 深度皮膚分析',
+    nameLabel: '您的姓名',
+    namePlaceholder: '請輸入姓名',
+    birthYearLabel: '出生年份',
+    uploadTitle: '上傳自拍照',
+    uploadHint: '點擊選擇或拖放照片',
+    startBtn: '開始分析',
+    resultsTitle: '分析結果',
+    proportionTitle: '面部比例分析',
+    harmonyLabel: '面部和諧分數',
+    skinTitle: 'AI 皮膚分析',
+    reportTitle: 'AI 報告',
+    shareTitle: '分享結果',
+    downloadBtn: '下載圖片',
+    restartBtn: '重新分析',
+    scanning: '掃描中...',
+    detecting: '偵測特徵點中...',
+    analyzing: '分析比例中...',
+    aiAnalyzing: 'AI 皮膚分析中...',
+    sanTing: '三庭',
+    wuYan: '五眼',
+    symmetry: '對稱性',
+    goldenRatio: '黃金比例',
+    skinAge: '膚齡',
+    actualAge: '實際年齡',
+    skinBetter: '您的皮膚優於同齡 {0}% 的人',
+    typeS: '水晶肌',
+    typeK: '蓮花肌',
+    typeD: '珍珠肌',
+    typeH: '玫瑰肌',
+    shareText: '我的 AI 美容分析結果',
   },
   ja: {
-    heroSub: 'Beauty Clinic',
-    heroTitle: '無料 AI 美容分析',
-    heroDesc: '30秒で黄金比と肌状態をチェック',
-    feat1: '黄金比', feat2: '肌分析', feat3: 'AI アドバイス',
-    uploadTitle: 'セルフィーを撮影', uploadDesc: '顔がはっきり、良い照明で',
-    btnCamera: '撮影', btnGallery: 'ギャラリー',
-    nameLabel: 'お名前', namePlaceholder: '例：田中太郎',
-    btnStart: '&#x2728; 分析開始',
-    footerNote: '結果は参考用です',
-    analyzingTitle: '分析中...',
-    prog1: '顔を検出', prog2: '黄金比を測定',
-    prog3: '肌の AI 分析', prog4: 'レポート作成',
-    resultSubtitle: 'AI ビューティー分析レポート',
-    s1Title: '顔のプロポーション',
-    harmonyTitle: 'フェイスハーモニー', harmonyDesc: '顔の調和度スコア',
-    lblGolden: '黄金比', lblSymmetry: '対称性', lblThree: '三停',
-    s2Title: '肌分析',
-    skinTypeLabel: 'あなたの肌タイプ',
-    ageUnit: ' 歳', skinAgeLabel: '推定肌年齢',
-    s3Title: 'AI アドバイス', s4Title: '結果をシェア',
-    shareDesc: '友達にもシェアして無料分析を！',
-    btnDownload: '画像保存', btnShare: 'シェア', btnRetry: '再分析',
-    percentileText: 'あなたの肌は同年代の{pct}%より美しい',
-    youngerText: '実年齢より{n}歳若い',
-    olderText: '実年齢より{n}歳上',
-    sameAgeText: '実年齢通り',
-    errorTitle: '分析できません',
-    errorNoFace: '顔が検出されませんでした。明るい場所で撮り直してください。',
-    errorNetwork: '接続エラー。もう一度お試しください。',
-    alertNoPhoto: '写真を選んでください！',
-    radarLabels: ['水分量', '透明感', 'ハリ', '均一性', '毛穴', 'ツヤ'],
-    skinTypes: {
-      S: { name: 'クリスタル肌', desc: '透明感あふれる自然な輝き' },
-      K: { name: 'ロータス肌', desc: '繊細で丁寧なケアが大切' },
-      D: { name: 'パール肌', desc: '輝きと活力に満ちた肌' },
-      H: { name: 'ローズ肌', desc: '複合的な美しさ' }
-    },
-    shareTitle: 'ビューティー分析結果',
-    shareFaceScore: '顔の調和',
-    shareSkinAge: '肌年齢',
-    shareCTA: 'QRコードで無料分析',
+    heroTitle: 'AI <span>ビューティー</span>分析',
+    heroSub: '顔認識テクノロジー + AIスキン深層分析',
+    nameLabel: 'お名前',
+    namePlaceholder: 'お名前を入力',
+    birthYearLabel: '生年',
+    uploadTitle: 'セルフィーをアップロード',
+    uploadHint: 'タップして選択またはドラッグ＆ドロップ',
+    startBtn: '分析開始',
+    resultsTitle: '分析結果',
+    proportionTitle: '顔のプロポーション分析',
+    harmonyLabel: '顔の調和スコア',
+    skinTitle: 'AIスキン分析',
+    reportTitle: 'AIレポート',
+    shareTitle: '結果をシェア',
+    downloadBtn: '画像をダウンロード',
+    restartBtn: 'もう一度分析',
+    scanning: 'スキャン中...',
+    detecting: 'ランドマーク検出中...',
+    analyzing: 'プロポーション分析中...',
+    aiAnalyzing: 'AIスキン分析中...',
+    sanTing: '三庭',
+    wuYan: '五眼',
+    symmetry: '対称性',
+    goldenRatio: '黄金比',
+    skinAge: '肌年齢',
+    actualAge: '実年齢',
+    skinBetter: 'あなたの肌は同年代の {0}% より良いです',
+    typeS: 'クリスタル肌',
+    typeK: 'ロータス肌',
+    typeD: 'パール肌',
+    typeH: 'ローズ肌',
+    shareText: '私のAIビューティー分析結果',
   },
   ko: {
-    heroSub: 'Beauty Clinic',
-    heroTitle: '무료 AI 뷰티 분석',
-    heroDesc: '30초 만에 황금비율과 피부 상태를 확인하세요',
-    feat1: '황금비율', feat2: '피부 분석', feat3: 'AI 상담',
-    uploadTitle: '셀카를 촬영하세요', uploadDesc: '얼굴이 선명하고 조명이 좋은 곳에서',
-    btnCamera: '촬영', btnGallery: '갤러리',
-    nameLabel: '이름', namePlaceholder: '예: 홍길동',
-    btnStart: '&#x2728; 분석 시작',
-    footerNote: '결과는 참고용입니다',
-    analyzingTitle: '분석 중...',
-    prog1: '얼굴 감지', prog2: '황금비율 측정',
-    prog3: 'AI 피부 분석', prog4: '개인 리포트 생성',
-    resultSubtitle: 'AI 뷰티 분석 리포트',
-    s1Title: '얼굴 비율',
-    harmonyTitle: '페이스 하모니 스코어', harmonyDesc: '얼굴 조화도 지표',
-    lblGolden: '황금비율', lblSymmetry: '대칭', lblThree: '삼정',
-    s2Title: '피부 분석',
-    skinTypeLabel: '당신의 피부 타입',
-    ageUnit: ' 세', skinAgeLabel: '추정 피부 나이',
-    s3Title: 'AI 조언', s4Title: '결과 공유',
-    shareDesc: '친구에게도 공유해서 무료 분석 받게 해주세요!',
-    btnDownload: '이미지 저장', btnShare: '공유', btnRetry: '다시 분석',
-    percentileText: '당신의 피부는 동년배의 {pct}%보다 아름답습니다',
-    youngerText: '실제 나이보다 {n}세 젊음',
-    olderText: '실제 나이보다 {n}세 많음',
-    sameAgeText: '실제 나이와 동일',
-    errorTitle: '분석 불가',
-    errorNoFace: '얼굴을 감지할 수 없습니다. 밝은 곳에서 다시 촬영해주세요.',
-    errorNetwork: '연결 오류. 다시 시도해주세요.',
-    alertNoPhoto: '사진을 먼저 선택해주세요!',
-    radarLabels: ['수분', '맑음', '탄력', '균일', '모공', '광채'],
-    skinTypes: {
-      S: { name: '크리스탈 피부', desc: '투명하고 자연스러운 빛남' },
-      K: { name: '연꽃 피부', desc: '섬세하고 부드러운 관리 필요' },
-      D: { name: '진주 피부', desc: '빛나고 활력 넘침' },
-      H: { name: '장미 피부', desc: '복합적인 아름다움' }
-    },
-    shareTitle: '뷰티 분석 결과',
-    shareFaceScore: '얼굴 조화',
-    shareSkinAge: '피부 나이',
-    shareCTA: 'QR 스캔으로 무료 분석',
+    heroTitle: 'AI <span>뷰티</span> 분석',
+    heroSub: '얼굴 인식 기술 + AI 피부 심층 분석',
+    nameLabel: '이름',
+    namePlaceholder: '이름을 입력하세요',
+    birthYearLabel: '출생연도',
+    uploadTitle: '셀카 업로드',
+    uploadHint: '탭하여 선택하거나 드래그 앤 드롭',
+    startBtn: '분석 시작',
+    resultsTitle: '분석 결과',
+    proportionTitle: '얼굴 비율 분석',
+    harmonyLabel: '얼굴 조화 점수',
+    skinTitle: 'AI 피부 분석',
+    reportTitle: 'AI 리포트',
+    shareTitle: '결과 공유',
+    downloadBtn: '이미지 다운로드',
+    restartBtn: '다시 분석',
+    scanning: '스캔 중...',
+    detecting: '랜드마크 감지 중...',
+    analyzing: '비율 분석 중...',
+    aiAnalyzing: 'AI 피부 분석 중...',
+    sanTing: '삼정 (三庭)',
+    wuYan: '오안 (五眼)',
+    symmetry: '대칭성',
+    goldenRatio: '황금 비율',
+    skinAge: '피부 나이',
+    actualAge: '실제 나이',
+    skinBetter: '당신의 피부는 동년배의 {0}%보다 좋습니다',
+    typeS: '크리스탈 피부',
+    typeK: '연꽃 피부',
+    typeD: '진주 피부',
+    typeH: '장미 피부',
+    shareText: '나의 AI 뷰티 분석 결과',
   }
 };
 
-// ==================== STATE ====================
 let currentLang = 'vi';
-let selectedFile = null;
-let selectedBase64 = null;
-let faceMeshResults = null;
-let faceScores = {};
-let skinData = {};
-let uploadedImg = new Image();
+let uploadedFile = null;
+let imageBase64 = null;
+let faceLandmarker = null;
+let mediaPipeReady = false;
+let landmarks = null;
+let proportionData = null;
+let webhookResult = null;
 
-// ==================== LANGUAGE ====================
-function detectLang() {
-  const nav = (navigator.language || '').toLowerCase();
-  if (nav.startsWith('zh')) return 'zh';
-  if (nav.startsWith('ja')) return 'ja';
-  if (nav.startsWith('ko')) return 'ko';
-  if (nav.startsWith('vi')) return 'vi';
-  return 'vi';
+// ========================================================
+// i18n
+// ========================================================
+function t(key) {
+  return I18N[currentLang]?.[key] || I18N.vi[key] || key;
 }
 
-function setLang(lang) {
+function applyLanguage(lang) {
   currentLang = lang;
-  document.querySelectorAll('.lang-btn').forEach(b => {
-    b.classList.toggle('active', b.textContent.trim() === {vi:'VI',zh:'中文',ja:'日本語',ko:'한국어'}[lang]);
-  });
-  applyTranslations();
-}
-
-function t(key) { return (T[currentLang] && T[currentLang][key]) || T.vi[key] || key; }
-
-function applyTranslations() {
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    if (T[currentLang] && T[currentLang][key]) {
-      el.innerHTML = T[currentLang][key];
-    }
+    const val = t(key);
+    if (val) el.innerHTML = val;
   });
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
     const key = el.getAttribute('data-i18n-placeholder');
-    if (T[currentLang] && T[currentLang][key]) {
-      el.placeholder = T[currentLang][key];
-    }
+    el.placeholder = t(key);
   });
 }
 
-// ==================== FILE HANDLING ====================
-function handleFile(input) {
-  const file = input.files[0];
-  if (!file) return;
-  selectedFile = file;
+// ========================================================
+// INIT
+// ========================================================
+function init() {
+  // Birth year select
+  const sel = document.getElementById('birthYear');
+  const currentYear = new Date().getFullYear();
+  for (let y = currentYear - 10; y >= currentYear - 80; y--) {
+    const opt = document.createElement('option');
+    opt.value = y;
+    opt.textContent = y;
+    if (y === currentYear - 30) opt.selected = true;
+    sel.appendChild(opt);
+  }
+
+  // Language buttons
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
+  });
+
+  // Upload zone
+  const zone = document.getElementById('uploadZone');
+  const fileInput = document.getElementById('fileInput');
+
+  zone.addEventListener('click', () => fileInput.click());
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.classList.remove('dragover');
+    if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+  });
+  fileInput.addEventListener('change', e => {
+    if (e.target.files.length) handleFile(e.target.files[0]);
+  });
+
+  // Start button
+  document.getElementById('startBtn').addEventListener('click', startAnalysis);
+
+  // Load MediaPipe in background
+  loadMediaPipe();
+
+  applyLanguage('vi');
+}
+
+function handleFile(file) {
+  if (!file.type.startsWith('image/')) return showError('Please upload an image file');
+  uploadedFile = file;
 
   const reader = new FileReader();
-  reader.onload = function(e) {
-    selectedBase64 = e.target.result.split(',')[1];
-    const preview = document.getElementById('preview');
-    preview.src = e.target.result;
+  reader.onload = e => {
+    imageBase64 = e.target.result;
+    const preview = document.getElementById('previewImg');
+    preview.src = imageBase64;
     document.getElementById('uploadZone').classList.add('has-image');
     document.getElementById('startBtn').disabled = false;
-
-    uploadedImg = new Image();
-    uploadedImg.src = e.target.result;
   };
   reader.readAsDataURL(file);
 }
 
-// Drag and drop
-const zone = document.getElementById('uploadZone');
-zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
-zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
-zone.addEventListener('drop', e => {
-  e.preventDefault();
-  zone.classList.remove('dragover');
-  if (e.dataTransfer.files.length) {
-    document.getElementById('fileInput').files = e.dataTransfer.files;
-    handleFile(document.getElementById('fileInput'));
-  }
-});
-
-// ==================== MEDIAPIPE FACE MESH ====================
-let faceMesh = null;
-let faceMeshReady = false;
-
-async function initFaceMesh() {
+// ========================================================
+// MEDIAPIPE
+// ========================================================
+async function loadMediaPipe() {
   try {
-    // Load MediaPipe Face Mesh from CDN
-    if (typeof FaceMesh === 'undefined') {
-      await loadScript('https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@0.4.1633559619/face_mesh.js');
-    }
-    faceMesh = new FaceMesh({
-      locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@0.4.1633559619/${file}`
+    const vision = await import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18/+esm');
+    const filesetResolver = await vision.FilesetResolver.forVisionTasks(
+      'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18/wasm'
+    );
+    faceLandmarker = await vision.FaceLandmarker.createFromOptions(filesetResolver, {
+      baseOptions: {
+        modelAssetPath: 'https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task',
+        delegate: 'GPU'
+      },
+      runningMode: 'IMAGE',
+      numFaces: 1,
+      outputFaceBlendshapes: false,
+      outputFacialTransformationMatrixes: false
     });
-    faceMesh.setOptions({
-      maxNumFaces: 1,
-      refineLandmarks: true,
-      minDetectionConfidence: 0.5,
-      minTrackingConfidence: 0.5
-    });
-    faceMesh.onResults(onFaceMeshResults);
-    faceMeshReady = true;
-  } catch (e) {
-    console.warn('FaceMesh init failed:', e);
-    faceMeshReady = false;
+    mediaPipeReady = true;
+    console.log('MediaPipe loaded');
+  } catch (err) {
+    console.warn('MediaPipe failed to load, will use fallback:', err);
+    mediaPipeReady = false;
   }
 }
 
-function loadScript(src) {
-  return new Promise((resolve, reject) => {
-    const s = document.createElement('script');
-    s.src = src;
-    s.crossOrigin = 'anonymous';
-    s.onload = resolve;
-    s.onerror = reject;
-    document.head.appendChild(s);
-  });
-}
+// ========================================================
+// SCANNING ANIMATION
+// ========================================================
+async function startAnalysis() {
+  const name = document.getElementById('userName').value.trim() || 'Guest';
+  const birthYear = parseInt(document.getElementById('birthYear').value);
 
-function onFaceMeshResults(results) {
-  faceMeshResults = results;
-}
+  document.getElementById('heroSection').style.display = 'none';
+  const scanSection = document.getElementById('scanSection');
+  scanSection.classList.add('active');
 
-async function runFaceMesh(imgEl) {
-  if (!faceMeshReady) {
-    await initFaceMesh();
-  }
-  if (!faceMeshReady) return null;
+  // Set image
+  const scanImg = document.getElementById('scanImg');
+  scanImg.src = imageBase64;
 
-  // Create a canvas from the image for FaceMesh
-  const canvas = document.createElement('canvas');
-  canvas.width = imgEl.naturalWidth || imgEl.width;
-  canvas.height = imgEl.naturalHeight || imgEl.height;
+  await new Promise(r => { scanImg.onload = r; if (scanImg.complete) r(); });
+
+  const canvas = document.getElementById('scanCanvas');
+  const wrap = document.getElementById('scanWrap');
+  canvas.width = scanImg.naturalWidth;
+  canvas.height = scanImg.naturalHeight;
   const ctx = canvas.getContext('2d');
-  ctx.drawImage(imgEl, 0, 0, canvas.width, canvas.height);
 
-  faceMeshResults = null;
-  await faceMesh.send({ image: canvas });
+  // Show reticles
+  wrap.querySelectorAll('.reticle').forEach(r => r.classList.add('show'));
 
-  // Wait for results
-  let tries = 0;
-  while (!faceMeshResults && tries < 50) {
-    await new Promise(r => setTimeout(r, 100));
-    tries++;
+  const GOLD = '#C9A96E';
+  const GOLD_DIM = 'rgba(201, 169, 110, 0.3)';
+  const GOLD_MESH = 'rgba(201, 169, 110, 0.12)';
+  const GOLD_SCAN = 'rgba(201, 169, 110, 0.8)';
+
+  const statusText = document.getElementById('scanStatusText');
+  const progressBar = document.getElementById('scanProgressBar');
+
+  // ---- PHASE 1: Scan Line (2s) ----
+  statusText.textContent = t('scanning').toUpperCase();
+  await animateScanLine(ctx, canvas.width, canvas.height, GOLD_SCAN, progressBar, 25);
+
+  // ---- PHASE 2: Landmark Detection (2s) ----
+  statusText.textContent = t('detecting').toUpperCase();
+  let detectedLandmarks = null;
+
+  if (mediaPipeReady && faceLandmarker) {
+    try {
+      const result = faceLandmarker.detect(scanImg);
+      if (result.faceLandmarks && result.faceLandmarks.length > 0) {
+        detectedLandmarks = result.faceLandmarks[0];
+      }
+    } catch (e) {
+      console.warn('MediaPipe detection failed:', e);
+    }
   }
-  return faceMeshResults;
+
+  if (detectedLandmarks) {
+    landmarks = detectedLandmarks;
+    await animateLandmarks(ctx, canvas.width, canvas.height, landmarks, GOLD, GOLD_MESH, progressBar, 50);
+  } else {
+    // Fallback: fake scanning animation
+    landmarks = null;
+    await fakeLandmarkAnimation(ctx, canvas.width, canvas.height, GOLD, progressBar, 50);
+  }
+
+  // ---- PHASE 3: 三庭五眼 Analysis (3s) ----
+  statusText.textContent = t('analyzing').toUpperCase();
+  proportionData = calculateProportions(landmarks, canvas.width, canvas.height);
+  await animateProportionLines(ctx, canvas.width, canvas.height, landmarks, proportionData, GOLD, GOLD_DIM, progressBar, 75);
+
+  // ---- PHASE 4: Send to webhook ----
+  statusText.textContent = t('aiAnalyzing').toUpperCase();
+  statusText.style.animation = 'blink 1.5s ease-in-out infinite';
+  progressBar.style.width = '80%';
+
+  // Send webhook
+  const webhookPromise = sendWebhook(name, birthYear);
+
+  // Save proportion canvas for results
+  saveProportionCanvas(canvas);
+
+  try {
+    webhookResult = await webhookPromise;
+    progressBar.style.width = '100%';
+  } catch (e) {
+    console.error('Webhook error:', e);
+    webhookResult = null;
+  }
+
+  // Show results
+  await new Promise(r => setTimeout(r, 500));
+  scanSection.classList.remove('active');
+  showResults(name, birthYear);
 }
 
-// ==================== FACE ANALYSIS MATH ====================
-function analyzeFace(landmarks, imgW, imgH) {
-  if (!landmarks || landmarks.length < 468) return null;
+function animateScanLine(ctx, w, h, color, progressBar, targetProgress) {
+  return new Promise(resolve => {
+    const duration = 2000;
+    const start = performance.now();
 
-  const lm = (i) => ({
-    x: landmarks[i].x * imgW,
-    y: landmarks[i].y * imgH
+    function frame(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      progressBar.style.width = (progress * targetProgress) + '%';
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Dark overlay
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+      ctx.fillRect(0, 0, w, h);
+
+      // Scan line
+      const y = progress * h;
+      const gradient = ctx.createLinearGradient(0, y - 3, 0, y + 3);
+      gradient.addColorStop(0, 'transparent');
+      gradient.addColorStop(0.5, color);
+      gradient.addColorStop(1, 'transparent');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, y - 3, w, 6);
+
+      // Glow above line
+      const glowGrad = ctx.createLinearGradient(0, y - 40, 0, y);
+      glowGrad.addColorStop(0, 'transparent');
+      glowGrad.addColorStop(1, 'rgba(201, 169, 110, 0.15)');
+      ctx.fillStyle = glowGrad;
+      ctx.fillRect(0, y - 40, w, 40);
+
+      if (progress < 1) {
+        requestAnimationFrame(frame);
+      } else {
+        resolve();
+      }
+    }
+    requestAnimationFrame(frame);
   });
-  const dist = (a, b) => Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2);
+}
 
-  // Three sections (三停): forehead(10) → brow(9) → nose base(2) → chin(152)
-  const p10 = lm(10);  // hairline
-  const p9 = lm(9);    // brow ridge
-  const p2 = lm(2);    // nose base
-  const p152 = lm(152); // chin
+function animateLandmarks(ctx, w, h, lm, color, meshColor, progressBar, targetProgress) {
+  return new Promise(resolve => {
+    const duration = 2000;
+    const totalPoints = lm.length;
+    const start = performance.now();
 
-  const sec1 = dist(p10, p9);
-  const sec2 = dist(p9, p2);
-  const sec3 = dist(p2, p152);
-  const totalH = sec1 + sec2 + sec3;
-  const ideal3 = totalH / 3;
+    // Triangulation indices for face mesh (simplified subset)
+    const TRIANGULATION = getTriangulation();
 
-  // Three sections score: how close to 1:1:1
-  const dev3 = (Math.abs(sec1 - ideal3) + Math.abs(sec2 - ideal3) + Math.abs(sec3 - ideal3)) / totalH;
-  const threeScore = Math.max(0, Math.min(100, 100 - dev3 * 150));
+    function frame(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const pBar = 25 + progress * (targetProgress - 25);
+      progressBar.style.width = pBar + '%';
 
-  // Five eyes (五眼)
-  const pL = lm(234);   // left face edge
-  const pLE = lm(33);   // left eye outer
-  const pLI = lm(133);  // left eye inner
-  const pRI = lm(362);  // right eye inner
-  const pRE = lm(263);  // right eye outer
-  const pR = lm(454);   // right face edge
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+      ctx.fillRect(0, 0, w, h);
 
-  const e1 = dist(pL, pLE);
-  const e2 = dist(pLE, pLI);
-  const e3 = dist(pLI, pRI);
-  const e4 = dist(pRI, pRE);
-  const e5 = dist(pRE, pR);
-  const totalW = e1 + e2 + e3 + e4 + e5;
-  const idealE = totalW / 5;
+      const showCount = Math.floor(progress * totalPoints);
 
-  // Five eyes score
-  const devE = (Math.abs(e1 - idealE) + Math.abs(e2 - idealE) + Math.abs(e3 - idealE * 1.05) + Math.abs(e4 - idealE) + Math.abs(e5 - idealE)) / totalW;
-  const fiveScore = Math.max(0, Math.min(100, 100 - devE * 120));
+      // Draw mesh triangles
+      if (progress > 0.3) {
+        const meshProgress = (progress - 0.3) / 0.7;
+        ctx.strokeStyle = meshColor;
+        ctx.lineWidth = 0.5;
+        const triCount = Math.floor(meshProgress * TRIANGULATION.length / 3);
+        for (let i = 0; i < triCount * 3; i += 3) {
+          if (TRIANGULATION[i] >= totalPoints) continue;
+          const p1 = lm[TRIANGULATION[i]];
+          const p2 = lm[TRIANGULATION[i + 1]];
+          const p3 = lm[TRIANGULATION[i + 2]];
+          if (!p1 || !p2 || !p3) continue;
+          ctx.beginPath();
+          ctx.moveTo(p1.x * w, p1.y * h);
+          ctx.lineTo(p2.x * w, p2.y * h);
+          ctx.lineTo(p3.x * w, p3.y * h);
+          ctx.closePath();
+          ctx.stroke();
+        }
+      }
 
-  // Golden Ratio: face height / face width ≈ 1.618
-  const faceHeight = dist(p10, p152);
-  const faceWidth = dist(pL, pR);
-  const ratio = faceHeight / faceWidth;
-  const goldenDev = Math.abs(ratio - 1.618) / 1.618;
-  const goldenScore = Math.max(0, Math.min(100, 100 - goldenDev * 200));
+      // Draw landmarks as dots
+      for (let i = 0; i < showCount; i++) {
+        const p = lm[i];
+        ctx.beginPath();
+        ctx.arc(p.x * w, p.y * h, 1.2, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+      }
 
-  // Symmetry: compare left vs right distances
-  const midX = (lm(1).x + lm(168).x) / 2;
-  const symPairs = [[33, 263], [133, 362], [70, 300], [105, 334], [234, 454]];
-  let symDev = 0;
-  symPairs.forEach(([l, r]) => {
-    const dL = Math.abs(lm(l).x - midX);
-    const dR = Math.abs(lm(r).x - midX);
-    symDev += Math.abs(dL - dR) / Math.max(dL, dR, 1);
+      if (progress < 1) {
+        requestAnimationFrame(frame);
+      } else {
+        resolve();
+      }
+    }
+    requestAnimationFrame(frame);
   });
-  symDev /= symPairs.length;
-  const symmetryScore = Math.max(0, Math.min(100, 100 - symDev * 180));
+}
 
-  // Overall harmony (generous weighting)
-  const raw = goldenScore * 0.25 + symmetryScore * 0.25 + threeScore * 0.25 + fiveScore * 0.25;
-  // Generous curve: push toward 70-85 range
-  const harmony = Math.round(Math.min(98, 55 + raw * 0.35 + Math.random() * 3));
+function fakeLandmarkAnimation(ctx, w, h, color, progressBar, targetProgress) {
+  return new Promise(resolve => {
+    const duration = 2000;
+    const start = performance.now();
+    // Generate fake dots in face region
+    const fakeDots = [];
+    for (let i = 0; i < 200; i++) {
+      fakeDots.push({
+        x: 0.2 + Math.random() * 0.6,
+        y: 0.15 + Math.random() * 0.7
+      });
+    }
+
+    function frame(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      progressBar.style.width = (25 + progress * (targetProgress - 25)) + '%';
+
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+      ctx.fillRect(0, 0, w, h);
+
+      const showCount = Math.floor(progress * fakeDots.length);
+      for (let i = 0; i < showCount; i++) {
+        ctx.beginPath();
+        ctx.arc(fakeDots[i].x * w, fakeDots[i].y * h, 1.2, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+      }
+
+      if (progress < 1) requestAnimationFrame(frame);
+      else resolve();
+    }
+    requestAnimationFrame(frame);
+  });
+}
+
+function calculateProportions(lm, w, h) {
+  if (!lm) {
+    // Generate generous fake scores
+    return {
+      sanTingRatio: [1.02, 1.00, 0.98],
+      wuYanRatio: [0.98, 1.01, 1.00, 0.99, 1.02],
+      sanTingScore: 82 + Math.random() * 8,
+      wuYanScore: 78 + Math.random() * 10,
+      symmetryScore: 80 + Math.random() * 10,
+      goldenRatioScore: 75 + Math.random() * 10,
+      harmonyScore: 79 + Math.random() * 9,
+      lines: null
+    };
+  }
+
+  // Key landmarks
+  const top = lm[10];      // forehead
+  const brow = lm[8];      // glabella
+  const noseBase = lm[1];  // nose tip
+  const chin = lm[152];    // chin bottom
+  const leftEdge = lm[234];
+  const rightEdge = lm[454];
+  const leftEyeOuter = lm[263];
+  const leftEyeInner = lm[362];
+  const rightEyeOuter = lm[33];
+  const rightEyeInner = lm[133];
+
+  // 三庭 (3 sections)
+  const sec1 = (brow.y - top.y) * h;
+  const sec2 = (noseBase.y - brow.y) * h;
+  const sec3 = (chin.y - noseBase.y) * h;
+  const avgSec = (sec1 + sec2 + sec3) / 3;
+  const sanTingRatio = [sec1 / avgSec, sec2 / avgSec, sec3 / avgSec];
+
+  // 五眼 (5 eye-widths)
+  const eyeWidth = (leftEyeInner.x - rightEyeInner.x) * w; // nose bridge
+  const seg1 = (rightEyeOuter.x - leftEdge.x) * w;
+  const seg2 = (rightEyeInner.x - rightEyeOuter.x) * w;
+  const seg3 = (leftEyeInner.x - rightEyeInner.x) * w;
+  const seg4 = (leftEyeOuter.x - leftEyeInner.x) * w;
+  const seg5 = (rightEdge.x - leftEyeOuter.x) * w;
+  const avgSeg = (seg1 + seg2 + seg3 + seg4 + seg5) / 5;
+  const wuYanRatio = [seg1/avgSeg, seg2/avgSeg, seg3/avgSeg, seg4/avgSeg, seg5/avgSeg];
+
+  // Symmetry
+  const centerX = (leftEdge.x + rightEdge.x) / 2;
+  const noseTipX = lm[1].x;
+  const symDiff = Math.abs(noseTipX - centerX) / (rightEdge.x - leftEdge.x);
+
+  // Scores (be generous)
+  const sanTingDev = sanTingRatio.reduce((s, r) => s + Math.abs(r - 1), 0) / 3;
+  const wuYanDev = wuYanRatio.reduce((s, r) => s + Math.abs(r - 1), 0) / 5;
+
+  const sanTingScore = Math.min(95, Math.max(70, 95 - sanTingDev * 80));
+  const wuYanScore = Math.min(95, Math.max(70, 95 - wuYanDev * 80));
+  const symmetryScore = Math.min(96, Math.max(72, 96 - symDiff * 200));
+
+  // Golden ratio: distance between eyes / nose width
+  const eyeDist = Math.sqrt(Math.pow((leftEyeOuter.x - rightEyeOuter.x) * w, 2) + Math.pow((leftEyeOuter.y - rightEyeOuter.y) * h, 2));
+  const noseWidth = Math.abs(lm[129].x - lm[358].x) * w;
+  const goldenCheck = eyeDist / (noseWidth || 1);
+  const goldenDev = Math.abs(goldenCheck - 1.618) / 1.618;
+  const goldenRatioScore = Math.min(94, Math.max(68, 94 - goldenDev * 100));
+
+  const harmonyScore = Math.round((sanTingScore * 0.3 + wuYanScore * 0.25 + symmetryScore * 0.25 + goldenRatioScore * 0.2) * 10) / 10;
 
   return {
-    goldenScore: Math.round(Math.min(98, 50 + goldenScore * 0.42 + Math.random() * 3)),
-    symmetryScore: Math.round(Math.min(98, 52 + symmetryScore * 0.40 + Math.random() * 3)),
-    threeScore: Math.round(Math.min(98, 50 + threeScore * 0.42 + Math.random() * 3)),
-    fiveScore: Math.round(Math.min(97, 50 + fiveScore * 0.42 + Math.random() * 3)),
-    harmonyScore: harmony,
-    // Raw data for drawing
-    sections: [p10, p9, p2, p152],
-    eyes: [pL, pLE, pLI, pRI, pRE, pR],
-    ratio: ratio,
-    landmarks: landmarks,
-    imgW, imgH
+    sanTingRatio, wuYanRatio,
+    sanTingScore: Math.round(sanTingScore * 10) / 10,
+    wuYanScore: Math.round(wuYanScore * 10) / 10,
+    symmetryScore: Math.round(symmetryScore * 10) / 10,
+    goldenRatioScore: Math.round(goldenRatioScore * 10) / 10,
+    harmonyScore,
+    lines: {
+      top: { x: top.x * w, y: top.y * h },
+      brow: { x: brow.x * w, y: brow.y * h },
+      noseBase: { x: noseBase.x * w, y: noseBase.y * h },
+      chin: { x: chin.x * w, y: chin.y * h },
+      leftEdge: { x: leftEdge.x * w, y: leftEdge.y * h },
+      rightEdge: { x: rightEdge.x * w, y: rightEdge.y * h },
+      leftEyeOuter: { x: leftEyeOuter.x * w, y: leftEyeOuter.y * h },
+      leftEyeInner: { x: leftEyeInner.x * w, y: leftEyeInner.y * h },
+      rightEyeOuter: { x: rightEyeOuter.x * w, y: rightEyeOuter.y * h },
+      rightEyeInner: { x: rightEyeInner.x * w, y: rightEyeInner.y * h },
+    }
   };
 }
 
-// ==================== DRAW FACE OVERLAY ====================
-function drawFaceOverlay(scores, imgEl) {
-  const canvas = document.getElementById('faceCanvas');
-  const w = imgEl.naturalWidth || imgEl.width;
-  const h = imgEl.naturalHeight || imgEl.height;
-  // Scale for display
-  const maxW = 440;
-  const scale = Math.min(maxW / w, 1);
-  canvas.width = w * scale;
-  canvas.height = h * scale;
-  const ctx = canvas.getContext('2d');
+function animateProportionLines(ctx, w, h, lm, data, color, dimColor, progressBar, targetProgress) {
+  return new Promise(resolve => {
+    const duration = 3000;
+    const start = performance.now();
 
-  ctx.drawImage(imgEl, 0, 0, canvas.width, canvas.height);
+    function frame(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      progressBar.style.width = (50 + progress * (targetProgress - 50)) + '%';
 
-  if (!scores || !scores.landmarks) return;
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
+      ctx.fillRect(0, 0, w, h);
 
-  const s = scale;
-  const lm = (i) => ({
-    x: scores.landmarks[i].x * scores.imgW * s,
-    y: scores.landmarks[i].y * scores.imgH * s
+      // Redraw landmarks faintly
+      if (lm) {
+        for (let i = 0; i < lm.length; i++) {
+          ctx.beginPath();
+          ctx.arc(lm[i].x * w, lm[i].y * h, 0.8, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(201, 169, 110, 0.2)';
+          ctx.fill();
+        }
+      }
+
+      if (!data.lines) {
+        // Fake lines
+        if (progress > 0.1) drawFakeProportionLines(ctx, w, h, color, dimColor, Math.min((progress - 0.1) / 0.9, 1), data);
+      } else {
+        const L = data.lines;
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([6, 4]);
+
+        // 三庭 horizontal lines (appear sequentially)
+        const linePhases = [
+          { y: L.top.y, label: '', threshold: 0.05 },
+          { y: L.brow.y, label: data.sanTingRatio[0].toFixed(2), threshold: 0.15 },
+          { y: L.noseBase.y, label: data.sanTingRatio[1].toFixed(2), threshold: 0.3 },
+          { y: L.chin.y, label: data.sanTingRatio[2].toFixed(2), threshold: 0.45 },
+        ];
+
+        for (const lp of linePhases) {
+          if (progress > lp.threshold) {
+            const lineAlpha = Math.min((progress - lp.threshold) / 0.1, 1);
+            ctx.strokeStyle = `rgba(201, 169, 110, ${lineAlpha * 0.9})`;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.15, lp.y);
+            ctx.lineTo(w * 0.85, lp.y);
+            ctx.stroke();
+
+            if (lp.label) {
+              ctx.fillStyle = `rgba(201, 169, 110, ${lineAlpha})`;
+              ctx.font = `${Math.max(12, w * 0.028)}px JetBrains Mono, monospace`;
+              ctx.textAlign = 'left';
+              ctx.fillText(lp.label, w * 0.87, lp.y + 4);
+            }
+          }
+        }
+
+        // 五眼 vertical lines
+        if (progress > 0.5) {
+          const vAlpha = Math.min((progress - 0.5) / 0.2, 1);
+          ctx.strokeStyle = `rgba(201, 169, 110, ${vAlpha * 0.7})`;
+          const midY = (L.brow.y + L.noseBase.y) / 2;
+          const vLines = [L.leftEdge.x, L.rightEyeOuter.x, L.rightEyeInner.x, L.leftEyeInner.x, L.leftEyeOuter.x, L.rightEdge.x];
+
+          for (const vx of vLines) {
+            ctx.beginPath();
+            ctx.moveTo(vx, midY - h * 0.08);
+            ctx.lineTo(vx, midY + h * 0.08);
+            ctx.stroke();
+          }
+
+          // Ratio labels
+          if (progress > 0.65) {
+            ctx.font = `${Math.max(10, w * 0.022)}px JetBrains Mono, monospace`;
+            ctx.textAlign = 'center';
+            ctx.fillStyle = `rgba(201, 169, 110, ${Math.min((progress - 0.65) / 0.1, 1)})`;
+            for (let i = 0; i < 5; i++) {
+              const cx = (vLines[i] + vLines[i + 1]) / 2;
+              ctx.fillText(data.wuYanRatio[i].toFixed(2), cx, midY + h * 0.12);
+            }
+          }
+        }
+
+        // Scores overlay
+        if (progress > 0.8) {
+          const sAlpha = Math.min((progress - 0.8) / 0.15, 1);
+          ctx.fillStyle = `rgba(0, 0, 0, ${sAlpha * 0.6})`;
+          const boxH = h * 0.08;
+          ctx.fillRect(0, h - boxH, w, boxH);
+
+          ctx.fillStyle = `rgba(201, 169, 110, ${sAlpha})`;
+          ctx.font = `${Math.max(11, w * 0.026)}px Be Vietnam Pro, sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.fillText(
+            `${t('sanTing')} ${data.sanTingScore}%  |  ${t('wuYan')} ${data.wuYanScore}%  |  ${t('symmetry')} ${data.symmetryScore}%`,
+            w / 2, h - boxH / 2 + 4
+          );
+        }
+      }
+
+      ctx.setLineDash([]);
+
+      if (progress < 1) requestAnimationFrame(frame);
+      else resolve();
+    }
+    requestAnimationFrame(frame);
   });
-
-  // Draw subtle face contour
-  ctx.strokeStyle = 'rgba(198, 162, 75, 0.4)';
-  ctx.lineWidth = 1.5;
-  const faceOutline = [10, 338, 297, 332, 284, 251, 389, 356, 454, 323, 361, 288, 397, 365, 379, 378, 400, 377, 152, 148, 176, 149, 150, 136, 172, 58, 132, 93, 234, 127, 162, 21, 54, 103, 67, 109, 10];
-  ctx.beginPath();
-  faceOutline.forEach((idx, i) => {
-    const p = lm(idx);
-    if (i === 0) ctx.moveTo(p.x, p.y);
-    else ctx.lineTo(p.x, p.y);
-  });
-  ctx.stroke();
-
-  // Draw three sections lines
-  ctx.strokeStyle = 'rgba(198, 162, 75, 0.6)';
-  ctx.lineWidth = 1.5;
-  ctx.setLineDash([6, 4]);
-  scores.sections.forEach(pt => {
-    const x1 = pt.x * s - 30;
-    const x2 = pt.x * s + 30;
-    const y = pt.y * s;
-    ctx.beginPath();
-    ctx.moveTo(Math.max(0, x1), y);
-    ctx.lineTo(Math.min(canvas.width, x2), y);
-    ctx.stroke();
-  });
-
-  // Draw five eyes vertical lines
-  ctx.strokeStyle = 'rgba(183, 110, 121, 0.5)';
-  ctx.setLineDash([4, 3]);
-  scores.eyes.forEach(pt => {
-    const x = pt.x * s;
-    const y1 = pt.y * s - 15;
-    const y2 = pt.y * s + 15;
-    ctx.beginPath();
-    ctx.moveTo(x, y1);
-    ctx.lineTo(x, y2);
-    ctx.stroke();
-  });
-
-  ctx.setLineDash([]);
-
-  // Golden ratio overlay - subtle rectangle
-  const p10 = lm(10);
-  const p152 = lm(152);
-  const pL = lm(234);
-  const pR = lm(454);
-  const cx = (pL.x + pR.x) / 2;
-  const faceW = pR.x - pL.x;
-  const faceH = p152.y - p10.y;
-
-  ctx.strokeStyle = 'rgba(198, 162, 75, 0.3)';
-  ctx.lineWidth = 1;
-  ctx.strokeRect(cx - faceW / 2, p10.y, faceW, faceH);
-
-  // Label
-  ctx.fillStyle = 'rgba(198, 162, 75, 0.8)';
-  ctx.font = `${11 * scale}px "Be Vietnam Pro", sans-serif`;
-  ctx.fillText(`\u03D5 = ${scores.ratio.toFixed(2)}`, cx + faceW / 2 + 4, p10.y + faceH / 2);
 }
 
-// ==================== RADAR CHART ====================
-function drawRadar(values, labels) {
+function drawFakeProportionLines(ctx, w, h, color, dimColor, progress, data) {
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([6, 4]);
+  ctx.strokeStyle = color;
+
+  // Fake 三庭 lines
+  const yPositions = [h * 0.18, h * 0.38, h * 0.58, h * 0.75];
+  const labels = ['', data.sanTingRatio[0].toFixed(2), data.sanTingRatio[1].toFixed(2), data.sanTingRatio[2].toFixed(2)];
+
+  for (let i = 0; i < yPositions.length; i++) {
+    if (progress > i * 0.2) {
+      const alpha = Math.min((progress - i * 0.2) / 0.15, 1);
+      ctx.strokeStyle = `rgba(201, 169, 110, ${alpha * 0.8})`;
+      ctx.beginPath();
+      ctx.moveTo(w * 0.2, yPositions[i]);
+      ctx.lineTo(w * 0.8, yPositions[i]);
+      ctx.stroke();
+
+      if (labels[i]) {
+        ctx.fillStyle = `rgba(201, 169, 110, ${alpha})`;
+        ctx.font = `${Math.max(12, w * 0.028)}px JetBrains Mono, monospace`;
+        ctx.textAlign = 'left';
+        ctx.fillText(labels[i], w * 0.83, yPositions[i] + 4);
+      }
+    }
+  }
+  ctx.setLineDash([]);
+}
+
+let proportionCanvasData = null;
+function saveProportionCanvas(sourceCanvas) {
+  const pCanvas = document.getElementById('proportionCanvas');
+  pCanvas.width = sourceCanvas.width;
+  pCanvas.height = sourceCanvas.height;
+  const pCtx = pCanvas.getContext('2d');
+
+  // Draw original image
+  const img = document.getElementById('scanImg');
+  pCtx.drawImage(img, 0, 0, sourceCanvas.width, sourceCanvas.height);
+
+  // Copy scan overlay
+  pCtx.drawImage(sourceCanvas, 0, 0);
+
+  proportionCanvasData = pCanvas.toDataURL('image/jpeg', 0.85);
+}
+
+// ========================================================
+// WEBHOOK
+// ========================================================
+async function sendWebhook(name, birthYear) {
+  const currentYear = new Date().getFullYear();
+  const age = currentYear - birthYear;
+
+  // Strip data URL prefix
+  const base64Data = imageBase64.split(',')[1];
+
+  const payload = {
+    event_name: 'web_skin_test',
+    sender: {
+      id: 'web_' + Date.now().toString(36),
+      display_name: name
+    },
+    image_base64: base64Data,
+    image_filename: 'selfie.jpg',
+    language: currentLang,
+    age: age,
+    birth_year: birthYear
+  };
+
+  const res = await fetch('https://rho.zeabur.app/webhook/skin-test', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+
+  if (!res.ok) throw new Error('Webhook failed: ' + res.status);
+  return await res.json();
+}
+
+// ========================================================
+// RESULTS
+// ========================================================
+function showResults(name, birthYear) {
+  const section = document.getElementById('resultsSection');
+  section.classList.add('active');
+  document.getElementById('resultsName').textContent = name;
+
+  // Proportion scores
+  const grid = document.getElementById('proportionScores');
+  grid.innerHTML = `
+    <div class="score-item">
+      <div class="label">${t('sanTing')}</div>
+      <div class="value">${proportionData.sanTingScore}<span class="unit">%</span></div>
+    </div>
+    <div class="score-item">
+      <div class="label">${t('wuYan')}</div>
+      <div class="value">${proportionData.wuYanScore}<span class="unit">%</span></div>
+    </div>
+    <div class="score-item">
+      <div class="label">${t('symmetry')}</div>
+      <div class="value">${proportionData.symmetryScore}<span class="unit">%</span></div>
+    </div>
+    <div class="score-item">
+      <div class="label">${t('goldenRatio')}</div>
+      <div class="value">${proportionData.goldenRatioScore}<span class="unit">%</span></div>
+    </div>
+  `;
+
+  document.getElementById('harmonyScore').textContent = proportionData.harmonyScore + '%';
+
+  // Skin analysis from webhook
+  if (webhookResult) {
+    showSkinResults(webhookResult, birthYear);
+  }
+
+  // Scroll to results
+  section.scrollIntoView({ behavior: 'smooth' });
+}
+
+function showSkinResults(result, birthYear) {
+  const currentYear = new Date().getFullYear();
+  const actualAge = currentYear - birthYear;
+
+  // Parse webhook result
+  const skinData = result.skin_analysis || result.skinAnalysis || result;
+  const aiText = result.report || result.ai_report || result.message || '';
+
+  // Extract skin scores (adapt to your webhook response format)
+  const scores = {
+    moisture: skinData.moisture ?? skinData.water_content ?? 70 + Math.random() * 20,
+    smoothness: skinData.smoothness ?? skinData.smooth ?? 65 + Math.random() * 25,
+    wrinkles: skinData.wrinkle_score ?? (100 - (skinData.wrinkles ?? 20)),
+    spots: skinData.spot_score ?? (100 - (skinData.dark_spots ?? 15)),
+    pores: skinData.pore_score ?? (100 - (skinData.pores ?? 25)),
+    firmness: skinData.firmness ?? skinData.elasticity ?? 70 + Math.random() * 20,
+  };
+
+  // Skin age
+  let skinAge = skinData.skin_age ?? skinData.skinAge ?? null;
+  if (!skinAge) {
+    // Estimate: if scores are good, skin age is younger
+    const avgScore = Object.values(scores).reduce((a, b) => a + b, 0) / 6;
+    const diff = avgScore > 70 ? Math.floor(2 + Math.random() * 3) : Math.floor(-2 + Math.random() * 4);
+    skinAge = actualAge - diff;
+  }
+
+  const ageDiff = actualAge - skinAge;
+  const percentile = Math.min(92, Math.max(55, 50 + ageDiff * 8 + Math.random() * 10));
+
+  // Show skin card
+  const skinCard = document.getElementById('skinCard');
+  skinCard.style.display = 'block';
+
+  // Radar chart
+  drawRadarChart(scores);
+
+  // Age comparison
+  const ageCompare = document.getElementById('ageCompare');
+  ageCompare.innerHTML = `
+    <div class="age-box">
+      <div class="age-val skin">${skinAge}</div>
+      <div class="age-lbl">${t('skinAge')}</div>
+    </div>
+    <div class="age-arrow">${ageDiff > 0 ? '◀' : '▶'}</div>
+    <div class="age-box">
+      <div class="age-val actual">${actualAge}</div>
+      <div class="age-lbl">${t('actualAge')}</div>
+    </div>
+  `;
+
+  if (ageDiff > 0) {
+    document.getElementById('ageDiff').textContent = `🎉 -${ageDiff} ${currentLang === 'vi' ? 'tuổi' : currentLang === 'zh' ? '歲' : currentLang === 'ja' ? '歳' : '살'}!`;
+  } else if (ageDiff < 0) {
+    document.getElementById('ageDiff').textContent = `+${Math.abs(ageDiff)} ${currentLang === 'vi' ? 'tuổi' : currentLang === 'zh' ? '歲' : currentLang === 'ja' ? '歳' : '살'}`;
+  }
+
+  document.getElementById('percentileFill').style.width = percentile + '%';
+  document.getElementById('percentileText').textContent = t('skinBetter').replace('{0}', Math.round(percentile));
+
+  // Skin type
+  const avgScore = Object.values(scores).reduce((a, b) => a + b, 0) / 6;
+  const skinType = determineSkinType(scores, avgScore);
+  const badge = document.getElementById('skinTypeBadge');
+  badge.style.display = 'block';
+  badge.innerHTML = `
+    <div class="type-letter">Type ${skinType.letter}</div>
+    <div class="type-name">${skinType.name[currentLang]}</div>
+    <div class="type-desc">${skinType.desc}</div>
+  `;
+
+  // AI Report
+  if (aiText) {
+    document.getElementById('reportCard').style.display = 'block';
+    document.getElementById('aiReport').textContent = aiText;
+  }
+
+  // Share card
+  document.getElementById('shareCard').style.display = 'block';
+  generateShareImage(skinAge, actualAge, proportionData.harmonyScore, skinType, percentile);
+}
+
+function determineSkinType(scores, avg) {
+  const types = {
+    S: {
+      letter: 'S',
+      name: { vi: 'Da Pha Lê', zh: '水晶肌', ja: 'クリスタル肌', ko: '크리스탈 피부' },
+      desc: 'Clear & Luminous',
+      check: () => scores.smoothness > 75 && scores.spots > 80
+    },
+    K: {
+      letter: 'K',
+      name: { vi: 'Da Sen', zh: '蓮花肌', ja: 'ロータス肌', ko: '연꽃 피부' },
+      desc: 'Delicate & Refined',
+      check: () => scores.moisture < 65
+    },
+    D: {
+      letter: 'D',
+      name: { vi: 'Da Ngọc Trai', zh: '珍珠肌', ja: 'パール肌', ko: '진주 피부' },
+      desc: 'Glowing & Radiant',
+      check: () => scores.moisture > 75 && scores.pores < 60
+    },
+    H: {
+      letter: 'H',
+      name: { vi: 'Da Hoa Hồng', zh: '玫瑰肌', ja: 'ローズ肌', ko: '장미 피부' },
+      desc: 'Balanced & Vibrant',
+      check: () => true
+    }
+  };
+
+  for (const key of ['S', 'K', 'D', 'H']) {
+    if (types[key].check()) return types[key];
+  }
+  return types.H;
+}
+
+function drawRadarChart(scores) {
   const canvas = document.getElementById('radarCanvas');
+  const size = 300;
+  canvas.width = size * 2;
+  canvas.height = size * 2;
   const ctx = canvas.getContext('2d');
-  const w = canvas.width;
-  const h = canvas.height;
-  const cx = w / 2;
-  const cy = h / 2;
-  const r = w * 0.38;
-  const n = values.length;
+  ctx.scale(2, 2); // Retina
 
-  ctx.clearRect(0, 0, w, h);
+  const cx = size / 2, cy = size / 2, r = size * 0.35;
+  const labels = {
+    vi: ['Độ ẩm', 'Mịn', 'Nếp nhăn', 'Đốm', 'Lỗ chân lông', 'Đàn hồi'],
+    zh: ['水分', '光滑', '皺紋', '色斑', '毛孔', '彈性'],
+    ja: ['水分', '滑らかさ', 'シワ', 'シミ', '毛穴', '弾力'],
+    ko: ['수분', '매끄러움', '주름', '잡티', '모공', '탄력'],
+  };
+  const keys = ['moisture', 'smoothness', 'wrinkles', 'spots', 'pores', 'firmness'];
+  const values = keys.map(k => scores[k] / 100);
+  const n = 6;
 
-  // Draw grid
-  for (let ring = 1; ring <= 5; ring++) {
-    const rr = r * ring / 5;
+  // Background rings
+  for (let ring = 1; ring <= 4; ring++) {
+    const rr = r * ring / 4;
     ctx.beginPath();
     for (let i = 0; i <= n; i++) {
       const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
@@ -1448,537 +1967,308 @@ function drawRadar(values, labels) {
       if (i === 0) ctx.moveTo(x, y);
       else ctx.lineTo(x, y);
     }
-    ctx.strokeStyle = 'rgba(232, 180, 184, 0.25)';
-    ctx.lineWidth = 1;
+    ctx.closePath();
+    ctx.strokeStyle = 'rgba(201, 169, 110, 0.15)';
+    ctx.lineWidth = 0.5;
     ctx.stroke();
   }
 
-  // Draw axes
+  // Axis lines
   for (let i = 0; i < n; i++) {
     const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
     ctx.beginPath();
     ctx.moveTo(cx, cy);
     ctx.lineTo(cx + r * Math.cos(angle), cy + r * Math.sin(angle));
-    ctx.strokeStyle = 'rgba(232, 180, 184, 0.3)';
+    ctx.strokeStyle = 'rgba(201, 169, 110, 0.2)';
+    ctx.lineWidth = 0.5;
     ctx.stroke();
   }
 
-  // Draw data
+  // Data polygon
   ctx.beginPath();
-  values.forEach((v, i) => {
-    const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
-    const vr = r * v / 100;
-    const x = cx + vr * Math.cos(angle);
-    const y = cy + vr * Math.sin(angle);
+  for (let i = 0; i <= n; i++) {
+    const idx = i % n;
+    const angle = (Math.PI * 2 * idx / n) - Math.PI / 2;
+    const x = cx + r * values[idx] * Math.cos(angle);
+    const y = cy + r * values[idx] * Math.sin(angle);
     if (i === 0) ctx.moveTo(x, y);
     else ctx.lineTo(x, y);
-  });
+  }
   ctx.closePath();
-  ctx.fillStyle = 'rgba(183, 110, 121, 0.15)';
+  ctx.fillStyle = 'rgba(201, 169, 110, 0.15)';
   ctx.fill();
-  ctx.strokeStyle = 'rgba(183, 110, 121, 0.7)';
+  ctx.strokeStyle = '#C9A96E';
   ctx.lineWidth = 2;
   ctx.stroke();
 
-  // Draw points and labels
-  values.forEach((v, i) => {
+  // Data points
+  for (let i = 0; i < n; i++) {
     const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
-    const vr = r * v / 100;
-    const x = cx + vr * Math.cos(angle);
-    const y = cy + vr * Math.sin(angle);
-
-    // Point
+    const x = cx + r * values[i] * Math.cos(angle);
+    const y = cy + r * values[i] * Math.sin(angle);
     ctx.beginPath();
     ctx.arc(x, y, 4, 0, Math.PI * 2);
-    ctx.fillStyle = '#B76E79';
+    ctx.fillStyle = '#C9A96E';
     ctx.fill();
-    ctx.strokeStyle = 'white';
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#FFF';
+    ctx.lineWidth = 1.5;
     ctx.stroke();
+  }
 
-    // Label
-    const lx = cx + (r + 22) * Math.cos(angle);
-    const ly = cy + (r + 22) * Math.sin(angle);
-    ctx.fillStyle = '#666';
-    ctx.font = '11px "Be Vietnam Pro", sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(labels[i], lx, ly);
+  // Labels
+  const labelNames = labels[currentLang] || labels.vi;
+  ctx.font = '11px Be Vietnam Pro, sans-serif';
+  ctx.fillStyle = '#666';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  for (let i = 0; i < n; i++) {
+    const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+    const lx = cx + (r + 24) * Math.cos(angle);
+    const ly = cy + (r + 24) * Math.sin(angle);
+    ctx.fillText(labelNames[i], lx, ly);
 
     // Value
-    const vx = cx + (r + 36) * Math.cos(angle);
-    const vy = cy + (r + 36) * Math.sin(angle);
-    ctx.fillStyle = '#B76E79';
-    ctx.font = 'bold 11px "Be Vietnam Pro", sans-serif';
-    ctx.fillText(v, vx, vy);
-  });
+    const vx = cx + (r + 12) * Math.cos(angle);
+    const vy = cy + (r + 12) * Math.sin(angle);
+    ctx.font = 'bold 10px JetBrains Mono, monospace';
+    ctx.fillStyle = '#C9A96E';
+    ctx.fillText(Math.round(values[i] * 100), vx, vy + 14);
+    ctx.font = '11px Be Vietnam Pro, sans-serif';
+    ctx.fillStyle = '#666';
+  }
 }
 
-// ==================== SKIN ANALYSIS (SIMULATED FROM REPORT) ====================
-function generateSkinScores() {
-  // Generate generous skin scores
-  const base = 62 + Math.random() * 15;
-  const scores = {
-    hydration: Math.round(base + Math.random() * 18),
-    clarity: Math.round(base + Math.random() * 20),
-    firmness: Math.round(base + Math.random() * 15),
-    evenness: Math.round(base + Math.random() * 18),
-    pores: Math.round(base + Math.random() * 16),
-    glow: Math.round(base + Math.random() * 20)
-  };
-  // Clamp to 60-95
-  Object.keys(scores).forEach(k => {
-    scores[k] = Math.min(95, Math.max(60, scores[k]));
-  });
-
-  // Skin age: slightly younger than random 25-35
-  const skinAge = Math.round(22 + Math.random() * 8);
-  const actualAge = skinAge + Math.round(Math.random() * 6 + 1);
-
-  // Determine type based on dominant score
-  const avg = Object.values(scores).reduce((a, b) => a + b, 0) / 6;
-  let type;
-  if (scores.clarity > avg + 5 && scores.glow > avg + 3) type = 'S';
-  else if (scores.hydration < avg - 3) type = 'K';
-  else if (scores.glow > avg + 3) type = 'D';
-  else type = 'H';
-
-  const percentile = Math.round(55 + Math.random() * 30);
-
-  return { scores, skinAge, actualAge, type, percentile };
-}
-
-// ==================== MAIN ANALYSIS FLOW ====================
-async function startAnalysis() {
-  if (!selectedFile || !selectedBase64) {
-    alert(t('alertNoPhoto'));
-    return;
-  }
-
-  // Switch to analyzing screen
-  showStep('step2');
-  document.getElementById('analyzePreview').src = uploadedImg.src;
-
-  // Progress animation
-  const steps = ['prog1', 'prog2', 'prog3', 'prog4'];
-  let currentStep = 0;
-
-  function advanceProgress(idx) {
-    if (idx > 0) {
-      document.getElementById(steps[idx - 1]).classList.remove('active');
-      document.getElementById(steps[idx - 1]).classList.add('done');
-      document.getElementById(steps[idx - 1]).querySelector('.dot').textContent = '\u2713';
-    }
-    if (idx < steps.length) {
-      document.getElementById(steps[idx]).classList.add('active');
-    }
-  }
-
-  advanceProgress(0);
-
-  // Step 1: Face detection + MediaPipe
-  let faceAnalysis = null;
-  try {
-    await new Promise(r => setTimeout(r, 800));
-    const results = await runFaceMesh(uploadedImg);
-    if (results && results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
-      const lms = results.multiFaceLandmarks[0];
-      faceAnalysis = analyzeFace(lms, uploadedImg.naturalWidth || uploadedImg.width, uploadedImg.naturalHeight || uploadedImg.height);
-    }
-  } catch (e) {
-    console.warn('FaceMesh error:', e);
-  }
-
-  advanceProgress(1);
-  await new Promise(r => setTimeout(r, 600));
-
-  // Step 2: Face proportions calculated
-  if (!faceAnalysis) {
-    // Fallback: generate plausible scores without MediaPipe
-    faceAnalysis = {
-      goldenScore: Math.round(72 + Math.random() * 12),
-      symmetryScore: Math.round(74 + Math.random() * 12),
-      threeScore: Math.round(70 + Math.random() * 14),
-      fiveScore: Math.round(71 + Math.random() * 13),
-      harmonyScore: Math.round(73 + Math.random() * 10),
-      landmarks: null, sections: null, eyes: null, ratio: 1.55 + Math.random() * 0.15,
-      imgW: uploadedImg.naturalWidth || uploadedImg.width,
-      imgH: uploadedImg.naturalHeight || uploadedImg.height
-    };
-  }
-  faceScores = faceAnalysis;
-
-  advanceProgress(2);
-
-  // Step 3: Send to webhook for skin analysis (parallel)
-  const name = document.getElementById('userName').value || 'Guest';
-  let webhookReport = '';
-
-  try {
-    const webhookPromise = fetch('https://rho.zeabur.app/webhook/skin-test', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        event_name: 'web_skin_test',
-        sender: { id: 'web_' + Date.now(), display_name: name },
-        image_base64: selectedBase64,
-        image_filename: selectedFile.name,
-        language: currentLang
-      })
-    });
-
-    const resp = await Promise.race([
-      webhookPromise,
-      new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 45000))
-    ]);
-    const data = await resp.json();
-    webhookReport = data.report || data.message || '';
-  } catch (e) {
-    console.warn('Webhook error:', e);
-    webhookReport = t('errorNetwork') + '\n\n' + e.message;
-  }
-
-  skinData = generateSkinScores();
-
-  advanceProgress(3);
-  await new Promise(r => setTimeout(r, 500));
-
-  // Done - show results
-  advanceProgress(4);
-  await new Promise(r => setTimeout(r, 400));
-
-  displayResults(faceScores, skinData, webhookReport);
-}
-
-// ==================== DISPLAY RESULTS ====================
-function displayResults(face, skin, report) {
-  // Face scores
-  animateNumber('harmonyNum', face.harmonyScore, '%');
-  animateNumber('goldenScore', face.goldenScore, '%');
-  animateNumber('symmetryScore', face.symmetryScore, '%');
-  animateNumber('threeScore', face.threeScore, '%');
-
-  // Draw face overlay
-  drawFaceOverlay(face, uploadedImg);
-
-  // Skin type
-  const st = T[currentLang].skinTypes[skin.type];
-  document.getElementById('skinTypeName').textContent = st.name;
-  document.getElementById('skinTypeDesc').textContent = st.desc;
-
-  // Skin age
-  document.getElementById('skinAgeNum').innerHTML = skin.skinAge + '<span>' + t('ageUnit') + '</span>';
-  const diff = skin.actualAge - skin.skinAge;
-  if (diff > 0) {
-    document.getElementById('skinAgeCompare').textContent = t('youngerText').replace('{n}', diff);
-  } else if (diff < 0) {
-    document.getElementById('skinAgeCompare').textContent = t('olderText').replace('{n}', Math.abs(diff));
-  } else {
-    document.getElementById('skinAgeCompare').textContent = t('sameAgeText');
-  }
-  document.getElementById('skinPercentile').textContent = t('percentileText').replace('{pct}', skin.percentile);
-
-  // Radar chart
-  const radarValues = [skin.scores.hydration, skin.scores.clarity, skin.scores.firmness, skin.scores.evenness, skin.scores.pores, skin.scores.glow];
-  drawRadar(radarValues, t('radarLabels'));
-
-  // AI Report
-  if (report) {
-    document.getElementById('aiReport').textContent = report;
-    document.getElementById('aiReport').style.whiteSpace = 'pre-wrap';
-  } else {
-    document.getElementById('aiReport').innerHTML = '<em style="color:#999;">' + t('errorNetwork') + '</em>';
-  }
-
-  showStep('step3');
-}
-
-function animateNumber(elId, target, suffix) {
-  const el = document.getElementById(elId);
-  let current = 0;
-  const duration = 800;
-  const start = performance.now();
-
-  function update(now) {
-    const elapsed = now - start;
-    const progress = Math.min(elapsed / duration, 1);
-    // Ease out cubic
-    const eased = 1 - Math.pow(1 - progress, 3);
-    current = Math.round(eased * target);
-
-    if (suffix === '%') {
-      el.innerHTML = current + '<span class="score-unit">%</span>';
-    } else {
-      el.textContent = current;
-    }
-
-    if (progress < 1) requestAnimationFrame(update);
-  }
-  requestAnimationFrame(update);
-}
-
-// ==================== NAVIGATION ====================
-function showStep(stepId) {
-  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-  document.getElementById(stepId).classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function resetAll() {
-  selectedFile = null;
-  selectedBase64 = null;
-  faceMeshResults = null;
-  faceScores = {};
-  skinData = {};
-  document.getElementById('preview').src = '';
-  document.getElementById('uploadZone').classList.remove('has-image');
-  document.getElementById('startBtn').disabled = true;
-  document.getElementById('userName').value = '';
-  // Reset progress
-  document.querySelectorAll('.progress-item').forEach(p => {
-    p.classList.remove('active', 'done');
-    const dot = p.querySelector('.dot');
-    dot.textContent = dot.textContent === '\u2713' ? (parseInt(p.id.replace('prog', '')) || '') : dot.textContent;
-  });
-  ['prog1','prog2','prog3','prog4'].forEach((id, i) => {
-    document.getElementById(id).querySelector('.dot').textContent = i + 1;
-  });
-  showStep('step1');
-}
-
-// ==================== SHARE ====================
-async function generateShareImage() {
+// ========================================================
+// SHARE IMAGE
+// ========================================================
+function generateShareImage(skinAge, actualAge, harmonyScore, skinType, percentile) {
   const canvas = document.getElementById('shareCanvas');
-  const w = 1080;
-  const h = 1920;
-  canvas.width = w;
-  canvas.height = h;
   const ctx = canvas.getContext('2d');
+  const w = 540, h = 960;
 
-  // Gradient background
-  const grad = ctx.createLinearGradient(0, 0, 0, h);
-  grad.addColorStop(0, '#FFF9F5');
-  grad.addColorStop(0.3, '#F7E7CE');
-  grad.addColorStop(0.7, '#E8B4B8');
-  grad.addColorStop(1, '#B76E79');
-  ctx.fillStyle = grad;
+  // Background gradient
+  const bg = ctx.createLinearGradient(0, 0, 0, h);
+  bg.addColorStop(0, '#1A1A1E');
+  bg.addColorStop(1, '#2C2C2C');
+  ctx.fillStyle = bg;
   ctx.fillRect(0, 0, w, h);
 
-  // Decorative circles
-  ctx.globalAlpha = 0.1;
-  ctx.fillStyle = '#FFFFFF';
-  ctx.beginPath(); ctx.arc(w * 0.8, h * 0.15, 200, 0, Math.PI * 2); ctx.fill();
-  ctx.beginPath(); ctx.arc(w * 0.2, h * 0.7, 150, 0, Math.PI * 2); ctx.fill();
-  ctx.globalAlpha = 1;
+  // Gold accent lines
+  ctx.strokeStyle = 'rgba(201, 169, 110, 0.2)';
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(40, 80); ctx.lineTo(w - 40, 80); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(40, h - 80); ctx.lineTo(w - 40, h - 80); ctx.stroke();
 
-  // Logo
-  ctx.fillStyle = '#1A1A2E';
-  ctx.font = 'bold 64px "Playfair Display", serif';
+  // Decorative corner brackets
+  const drawCorner = (x, y, dx, dy) => {
+    ctx.strokeStyle = '#C9A96E';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(x + dx * 20, y);
+    ctx.lineTo(x, y);
+    ctx.lineTo(x, y + dy * 20);
+    ctx.stroke();
+  };
+  drawCorner(30, 30, 1, 1);
+  drawCorner(w - 30, 30, -1, 1);
+  drawCorner(30, h - 30, 1, -1);
+  drawCorner(w - 30, h - 30, -1, -1);
+
+  // HR07 logo
+  ctx.font = 'italic bold 48px Playfair Display, serif';
+  ctx.fillStyle = '#C9A96E';
   ctx.textAlign = 'center';
-  ctx.fillText('HR', w / 2 - 30, 140);
-  ctx.fillStyle = '#B76E79';
-  ctx.fillText('07', w / 2 + 50, 140);
+  ctx.fillText('HR07', w / 2, 140);
 
-  ctx.fillStyle = '#B76E79';
-  ctx.font = '24px "Be Vietnam Pro", sans-serif';
-  ctx.fillText('Beauty Clinic', w / 2, 180);
+  ctx.font = '12px Be Vietnam Pro, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.5)';
+  ctx.letterSpacing = '4px';
+  ctx.fillText('B E A U T Y   C L I N I C', w / 2, 165);
+
+  // Divider
+  ctx.strokeStyle = 'rgba(201, 169, 110, 0.4)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(w / 2 - 60, 190);
+  ctx.lineTo(w / 2 + 60, 190);
+  ctx.stroke();
 
   // Title
-  ctx.fillStyle = '#1A1A2E';
-  ctx.font = 'bold 42px "Playfair Display", serif';
-  ctx.fillText(t('shareTitle'), w / 2, 260);
+  ctx.font = '20px Playfair Display, serif';
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillText('AI Beauty Analysis', w / 2, 230);
 
-  // Face photo (circular)
-  if (uploadedImg.src) {
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(w / 2, 480, 160, 0, Math.PI * 2);
-    ctx.closePath();
-    ctx.clip();
-    const imgSize = Math.min(uploadedImg.naturalWidth, uploadedImg.naturalHeight);
-    const sx = (uploadedImg.naturalWidth - imgSize) / 2;
-    const sy = (uploadedImg.naturalHeight - imgSize) / 2;
-    ctx.drawImage(uploadedImg, sx, sy, imgSize, imgSize, w / 2 - 160, 320, 320, 320);
-    ctx.restore();
+  // Harmony score
+  ctx.font = 'bold 72px Playfair Display, serif';
+  ctx.fillStyle = '#C9A96E';
+  ctx.fillText(harmonyScore + '%', w / 2, 340);
 
-    // Circle border
-    ctx.beginPath();
-    ctx.arc(w / 2, 480, 162, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(255,255,255,0.6)';
-    ctx.lineWidth = 4;
-    ctx.stroke();
-  }
+  ctx.font = '14px Be Vietnam Pro, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.6)';
+  ctx.fillText(t('harmonyLabel'), w / 2, 370);
 
-  // Harmony score (big)
-  const y1 = 720;
-  ctx.fillStyle = '#1A1A2E';
-  ctx.font = 'bold 96px "Playfair Display", serif';
-  ctx.fillText(faceScores.harmonyScore || '--', w / 2, y1);
-  ctx.font = '40px "Playfair Display", serif';
-  ctx.fillStyle = '#B76E79';
-  ctx.fillText('%', w / 2 + 70, y1 - 15);
-
-  ctx.font = '26px "Be Vietnam Pro", sans-serif';
-  ctx.fillStyle = '#666';
-  ctx.fillText(t('shareFaceScore'), w / 2, y1 + 40);
-
-  // Score cards
-  const y2 = 840;
-  const cardW = 280;
-  const cardH = 120;
-  const cards = [
-    { label: t('lblGolden'), value: (faceScores.goldenScore || '--') + '%' },
-    { label: t('lblSymmetry'), value: (faceScores.symmetryScore || '--') + '%' },
-    { label: t('shareSkinAge'), value: (skinData.skinAge || '--') + t('ageUnit') }
+  // Proportion scores
+  const scoreLabels = [t('sanTing'), t('wuYan'), t('symmetry'), t('goldenRatio')];
+  const scoreValues = [
+    proportionData.sanTingScore,
+    proportionData.wuYanScore,
+    proportionData.symmetryScore,
+    proportionData.goldenRatioScore
   ];
 
-  cards.forEach((c, i) => {
-    const cx = w / 2 - cardW * 1.55 + i * (cardW + 15);
-    const cy = y2;
+  const startY = 420;
+  const colW = (w - 80) / 4;
+  for (let i = 0; i < 4; i++) {
+    const x = 40 + colW * i + colW / 2;
+    ctx.font = 'bold 24px Playfair Display, serif';
+    ctx.fillStyle = '#C9A96E';
+    ctx.fillText(scoreValues[i] + '%', x, startY);
 
-    // Card bg
+    ctx.font = '10px Be Vietnam Pro, sans-serif';
     ctx.fillStyle = 'rgba(255,255,255,0.5)';
-    roundRect(ctx, cx, cy, cardW, cardH, 16);
-    ctx.fill();
-
-    ctx.fillStyle = '#1A1A2E';
-    ctx.font = 'bold 36px "Playfair Display", serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(c.value, cx + cardW / 2, cy + 55);
-    ctx.font = '16px "Be Vietnam Pro", sans-serif';
-    ctx.fillStyle = '#888';
-    ctx.fillText(c.label, cx + cardW / 2, cy + 85);
-  });
-
-  // Skin type badge
-  const y3 = 1020;
-  ctx.fillStyle = 'rgba(183, 110, 121, 0.9)';
-  roundRect(ctx, w / 2 - 200, y3, 400, 100, 20);
-  ctx.fill();
-
-  const st = T[currentLang].skinTypes[skinData.type || 'H'];
-  ctx.fillStyle = 'white';
-  ctx.font = 'bold 32px "Playfair Display", serif';
-  ctx.textAlign = 'center';
-  ctx.fillText(st.name, w / 2, y3 + 45);
-  ctx.font = '18px "Be Vietnam Pro", sans-serif';
-  ctx.globalAlpha = 0.85;
-  ctx.fillText(st.desc, w / 2, y3 + 78);
-  ctx.globalAlpha = 1;
-
-  // QR code area (simple text instead of actual QR)
-  const y4 = 1200;
-  ctx.fillStyle = 'rgba(255,255,255,0.5)';
-  roundRect(ctx, w / 2 - 220, y4, 440, 180, 20);
-  ctx.fill();
-
-  // Simple QR placeholder with URL
-  ctx.fillStyle = '#1A1A2E';
-  ctx.font = '20px "Be Vietnam Pro", sans-serif';
-  ctx.fillText(t('shareCTA'), w / 2, y4 + 50);
-
-  // Draw a simple QR-like pattern
-  drawSimpleQR(ctx, w / 2 - 50, y4 + 65, 100);
-
-  // Watermark
-  ctx.fillStyle = 'rgba(255,255,255,0.6)';
-  ctx.font = '18px "Be Vietnam Pro", sans-serif';
-  ctx.fillText('hr07.zeabur.app/test-skin.html', w / 2, y4 + 165);
-
-  // Bottom branding
-  ctx.fillStyle = 'rgba(255,255,255,0.7)';
-  ctx.font = '20px "Be Vietnam Pro", sans-serif';
-  ctx.fillText('HR07 Beauty Clinic \u00B7 Q.3, TP.HCM', w / 2, h - 60);
-
-  // Download
-  canvas.toBlob(blob => {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'HR07-beauty-analysis.png';
-    a.click();
-    URL.revokeObjectURL(url);
-  }, 'image/png');
-}
-
-function roundRect(ctx, x, y, w, h, r) {
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.lineTo(x + w - r, y);
-  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-  ctx.lineTo(x + w, y + h - r);
-  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-  ctx.lineTo(x + r, y + h);
-  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-  ctx.lineTo(x, y + r);
-  ctx.quadraticCurveTo(x, y, x + r, y);
-  ctx.closePath();
-}
-
-function drawSimpleQR(ctx, x, y, size) {
-  // Draw a stylized QR-code-like pattern
-  const cellSize = size / 10;
-  ctx.fillStyle = '#1A1A2E';
-
-  // Corner markers
-  for (let r = 0; r < 3; r++) {
-    for (let c = 0; c < 3; c++) {
-      ctx.fillRect(x + c * cellSize, y + r * cellSize, cellSize * 0.85, cellSize * 0.85);
-    }
+    ctx.fillText(scoreLabels[i], x, startY + 20);
   }
-  for (let r = 0; r < 3; r++) {
-    for (let c = 7; c < 10; c++) {
-      ctx.fillRect(x + c * cellSize, y + r * cellSize, cellSize * 0.85, cellSize * 0.85);
-    }
-  }
-  for (let r = 7; r < 10; r++) {
-    for (let c = 0; c < 3; c++) {
-      ctx.fillRect(x + c * cellSize, y + r * cellSize, cellSize * 0.85, cellSize * 0.85);
+
+  // Skin age section
+  if (skinAge) {
+    ctx.strokeStyle = 'rgba(201, 169, 110, 0.2)';
+    ctx.beginPath(); ctx.moveTo(60, 480); ctx.lineTo(w - 60, 480); ctx.stroke();
+
+    ctx.font = '14px Be Vietnam Pro, sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    ctx.fillText(t('skinAge') + ': ' + skinAge + '  |  ' + t('actualAge') + ': ' + actualAge, w / 2, 520);
+
+    const ageDiff = actualAge - skinAge;
+    if (ageDiff > 0) {
+      ctx.font = 'bold 16px Be Vietnam Pro, sans-serif';
+      ctx.fillStyle = '#C9A96E';
+      ctx.fillText('-' + ageDiff + (currentLang === 'vi' ? ' tuổi!' : currentLang === 'zh' ? ' 歲!' : currentLang === 'ja' ? ' 歳!' : ' 살!'), w / 2, 550);
     }
   }
 
-  // Random center dots
-  const rng = (seed) => { let s = seed; return () => { s = (s * 16807) % 2147483647; return s / 2147483647; }; };
-  const rand = rng(42);
-  for (let r = 3; r < 10; r++) {
-    for (let c = 3; c < 10; c++) {
-      if (r < 7 || c >= 3) {
-        if (rand() > 0.45) {
-          ctx.fillRect(x + c * cellSize, y + r * cellSize, cellSize * 0.85, cellSize * 0.85);
-        }
+  // Skin type
+  if (skinType) {
+    ctx.strokeStyle = 'rgba(201, 169, 110, 0.2)';
+    ctx.beginPath(); ctx.moveTo(60, 590); ctx.lineTo(w - 60, 590); ctx.stroke();
+
+    ctx.font = 'bold 36px Playfair Display, serif';
+    ctx.fillStyle = '#C9A96E';
+    ctx.fillText('Type ' + skinType.letter, w / 2, 650);
+
+    ctx.font = '16px Be Vietnam Pro, sans-serif';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillText(skinType.name[currentLang], w / 2, 680);
+
+    ctx.font = '12px Be Vietnam Pro, sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.fillText(skinType.desc, w / 2, 705);
+  }
+
+  // Percentile
+  ctx.font = '13px Be Vietnam Pro, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  ctx.fillText(t('skinBetter').replace('{0}', Math.round(percentile)), w / 2, 760);
+
+  // QR pattern (decorative squares)
+  const qrX = w / 2 - 30, qrY = 800;
+  const qrSize = 60;
+  ctx.strokeStyle = 'rgba(201, 169, 110, 0.3)';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(qrX, qrY, qrSize, qrSize);
+  ctx.strokeRect(qrX + 5, qrY + 5, 15, 15);
+  ctx.strokeRect(qrX + qrSize - 20, qrY + 5, 15, 15);
+  ctx.strokeRect(qrX + 5, qrY + qrSize - 20, 15, 15);
+  ctx.fillStyle = 'rgba(201, 169, 110, 0.3)';
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+      if (Math.random() > 0.5) {
+        ctx.fillRect(qrX + 8 + i * 5.5, qrY + 8 + j * 5.5, 4, 4);
       }
     }
   }
+
+  // Footer
+  ctx.font = '10px Be Vietnam Pro, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.3)';
+  ctx.fillText('hr07.beauty | Ho Chi Minh City', w / 2, h - 40);
 }
 
 function shareFacebook() {
-  const url = encodeURIComponent('https://hr07.zeabur.app/test-skin.html');
-  window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+  const url = encodeURIComponent(window.location.href);
+  const text = encodeURIComponent(t('shareText'));
+  window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank');
 }
 
-function shareNative() {
-  if (navigator.share) {
-    navigator.share({
-      title: 'HR07 AI Beauty Analysis',
-      text: t('shareDesc'),
-      url: 'https://hr07.zeabur.app/test-skin.html'
-    }).catch(() => {});
-  } else {
-    // Fallback: copy link
-    navigator.clipboard.writeText('https://hr07.zeabur.app/test-skin.html').then(() => {
-      alert('Link copied!');
-    });
-  }
+function downloadShare() {
+  const canvas = document.getElementById('shareCanvas');
+  const link = document.createElement('a');
+  link.download = 'HR07-beauty-analysis.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
 }
 
-// ==================== INIT ====================
-document.addEventListener('DOMContentLoaded', () => {
-  const detected = detectLang();
-  setLang(detected);
-  // Pre-load MediaPipe
-  initFaceMesh().catch(() => {});
-});
+function restart() {
+  // Reset state
+  uploadedFile = null;
+  imageBase64 = null;
+  landmarks = null;
+  proportionData = null;
+  webhookResult = null;
+
+  document.getElementById('uploadZone').classList.remove('has-image');
+  document.getElementById('previewImg').src = '';
+  document.getElementById('startBtn').disabled = true;
+  document.getElementById('fileInput').value = '';
+  document.getElementById('resultsSection').classList.remove('active');
+  document.getElementById('scanSection').classList.remove('active');
+  document.getElementById('skinCard').style.display = 'none';
+  document.getElementById('reportCard').style.display = 'none';
+  document.getElementById('shareCard').style.display = 'none';
+  document.getElementById('heroSection').style.display = '';
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ========================================================
+// ERROR HANDLING
+// ========================================================
+function showError(msg) {
+  const toast = document.getElementById('errorToast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4000);
+}
+
+// ========================================================
+// TRIANGULATION (simplified subset of face mesh)
+// ========================================================
+function getTriangulation() {
+  return [
+    127,34,139, 11,0,37, 232,231,120, 72,37,39, 128,121,47,
+    232,121,128, 104,69,67, 175,171,148, 157,154,155, 118,50,101,
+    73,39,40, 9,151,108, 48,115,131, 194,204,211, 74,40,185,
+    80,42,183, 40,92,186, 230,229,118, 202,212,214, 83,18,17,
+    76,61,146, 160,29,30, 56,157,173, 106,204,194, 135,214,192,
+    203,165,98, 21,71,68, 51,45,4, 144,24,23, 77,146,91,
+    205,50,187, 201,200,18, 91,106,182, 90,91,181, 85,84,17,
+    206,203,36, 148,171,176, 149,150,188, 166,79,239, 222,221,46,
+    70,63,105, 89,21,22, 65,52,53, 120,28,108, 207,206,224,
+    137,132,34, 220,45,46, 57,36,205, 143,129,165, 80,79,178,
+    320,321,307, 325,326,261, 356,389,368, 11,302,267, 452,350,349,
+    302,303,269, 357,343,277, 452,453,357, 333,332,297, 175,152,176,
+    396,400,346, 261,340,385, 353,265,340, 332,280,330, 306,292,307,
+    327,326,0, 277,343,437, 443,444,283, 275,440,363, 431,262,395,
+    316,403,359, 296,270,271, 354,370,461, 279,429,355, 293,334,370,
+    460,461,309, 459,458,250, 289,305,392, 354,299,339, 445,373,451,
+    10,338,297, 278,54,370, 105,66,69, 104,68,71, 294,455,440
+  ];
+}
+
+// ========================================================
+// START
+// ========================================================
+document.addEventListener('DOMContentLoaded', init);
 </script>
-
 </body>
 </html>

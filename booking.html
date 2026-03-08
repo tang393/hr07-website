@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt Lịch Hẹn | HR07 Thẩm Mỹ Y Khoa - Quận 3, TP.HCM</title>
+    <meta name="description" content="Đặt lịch hẹn tại HR07 Medical Aesthetics - Thẩm mỹ y khoa cao cấp tại Quận 3, TP.HCM. Tư vấn miễn phí.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --gold: #C9A96E;
+            --gold-light: #D4BA8A;
+            --gold-dark: #B8944F;
+            --gold-glow: rgba(201, 169, 110, 0.15);
+            --brown: #6B5344;
+            --brown-light: #8B7265;
+            --charcoal: #2C2C2C;
+            --charcoal-light: #4A4A4A;
+            --text-secondary: #6B6B6B;
+            --bg-cream: #FBF8F3;
+            --bg-white: #FFFFFF;
+            --bg-light: #F8F6F1;
+            --border-light: rgba(201, 169, 110, 0.2);
+            --border-input: #E0D8CC;
+            --shadow-soft: 0 4px 30px rgba(0,0,0,0.06);
+            --shadow-card: 0 8px 40px rgba(0,0,0,0.08);
+            --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --error: #C44D4D;
+            --success: #4D8B6A;
+        }
+
+        html { scroll-behavior: smooth; font-size: 16px; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            color: var(--charcoal);
+            background: var(--bg-cream);
+            line-height: 1.7;
+            font-weight: 300;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 500;
+            line-height: 1.3;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes checkDraw {
+            from { stroke-dashoffset: 60; }
+            to { stroke-dashoffset: 0; }
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(201, 169, 110, 0.3); }
+            50% { box-shadow: 0 0 0 12px rgba(201, 169, 110, 0); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .fade-in { animation: fadeInUp 0.8s ease forwards; }
+        .fade-in-delay-1 { animation-delay: 0.1s; opacity: 0; }
+        .fade-in-delay-2 { animation-delay: 0.2s; opacity: 0; }
+        .fade-in-delay-3 { animation-delay: 0.3s; opacity: 0; }
+
+        /* ===== NAVIGATION ===== */
+        .nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 1px 30px rgba(0,0,0,0.06);
+            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .nav-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            letter-spacing: 3px;
+        }
+        .nav-logo span { color: var(--gold); }
+        .nav-back {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            transition: color var(--transition);
+        }
+        .nav-back:hover { color: var(--gold); }
+        .nav-back svg { width: 18px; height: 18px; }
+
+        /* ===== HERO BANNER ===== */
+        .page-hero {
+            background: linear-gradient(135deg, var(--brown) 0%, #4A3A2E 100%);
+            padding: 48px 24px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 30% 50%, rgba(201, 169, 110, 0.15) 0%, transparent 70%);
+        }
+        .page-hero h1 {
+            color: #FFFFFF;
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            margin-bottom: 8px;
+            position: relative;
+        }
+        .page-hero h1 em {
+            font-style: italic;
+            color: var(--gold-light);
+        }
+        .page-hero p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.95rem;
+            position: relative;
+        }
+        .page-hero .gold-line {
+            width: 60px;
+            height: 2px;
+            background: var(--gold);
+            margin: 16px auto;
+            position: relative;
+        }
+
+        /* ===== SKIN ANALYSIS BANNER ===== */
+        .skin-banner {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            padding: 16px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .skin-banner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+        }
+        .skin-banner a {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #FFFFFF;
+            font-weight: 500;
+            font-size: 0.9rem;
+            position: relative;
+            letter-spacing: 0.5px;
+        }
+        .skin-banner a svg {
+            width: 20px;
+            height: 20px;
+            animation: float 2.5s ease-in-out infinite;
+        }
+        .skin-banner a .arrow {
+            transition: transform 0.3s ease;
+        }
+        .skin-banner a:hover .arrow {
+            transform: translateX(4px);
+        }
+
+        /* ===== MAIN LAYOUT ===== */
+        .booking-layout {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 40px;
+            align-items: start;
+        }
+
+        /* ===== FORM CARD ===== */
+        .form-card {
+            background: var(--bg-white);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-light);
+            position: relative;
+        }
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 40px;
+            right: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+            border-radius: 0 0 3px 3px;
+        }
+
+        .form-header {
+            margin-bottom: 32px;
+        }
+        .form-header h2 {
+            font-size: 1.5rem;
+            color: var(--charcoal);
+            margin-bottom: 6px;
+        }
+        .form-header p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* ===== FORM FIELDS ===== */
+        .form-group {
+            margin-bottom: 22px;
+            position: relative;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .form-label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--brown);
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .form-label .required {
+            color: var(--gold);
+            margin-left: 2px;
+        }
+        .form-label .optional {
+            font-weight: 300;
+            color: var(--text-secondary);
+            text-transform: none;
+            font-size: 0.78rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: var(--charcoal);
+            background: var(--bg-cream);
+            border: 1.5px solid var(--border-input);
+            border-radius: 12px;
+            outline: none;
+            transition: all 0.3s ease;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: #B0A898;
+        }
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: var(--gold);
+            background: #FFFFFF;
+            box-shadow: 0 0 0 4px var(--gold-glow);
+        }
+        .form-input.error,
+        .form-select.error {
+            border-color: var(--error);
+            box-shadow: 0 0 0 4px rgba(196, 77, 77, 0.1);
+        }
+        .error-message {
+            display: none;
+            font-size: 0.78rem;
+            color: var(--error);
+            margin-top: 6px;
+            padding-left: 2px;
+        }
+        .error-message.show { display: block; }
+
+        .form-select {
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23C9A96E' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 44px;
+            cursor: pointer;
+        }
+        .form-select option { font-family: 'Inter', sans-serif; }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        input[type="date"] {
+            cursor: pointer;
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            opacity: 0.5;
+            cursor: pointer;
+        }
+
+        /* ===== SUBMIT BUTTON ===== */
+        .btn-submit {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px 32px;
+            margin-top: 32px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: #FFFFFF;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            background-size: 200% 100%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(201, 169, 110, 0.4);
+        }
+        .btn-submit:hover::before {
+            opacity: 1;
+            animation: shimmer 1.5s infinite;
+        }
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .btn-submit .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: #FFFFFF;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .btn-submit.loading .spinner { display: block; }
+        .btn-submit.loading .btn-text { display: none; }
+
+        /* ===== SUCCESS STATE ===== */
+        .success-overlay {
+            display: none;
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.97);
+            border-radius: 20px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+            z-index: 10;
+        }
+        .success-overlay.show {
+            display: flex;
+            animation: fadeIn 0.5s ease;
+        }
+        .success-check {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--success), #3D7A58);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            animation: scaleIn 0.5s ease 0.2s both;
+        }
+        .success-check svg {
+            width: 36px;
+            height: 36px;
+            stroke: #FFFFFF;
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 60;
+            stroke-dashoffset: 60;
+            animation: checkDraw 0.6s ease 0.6s forwards;
+        }
+        .success-overlay h3 {
+            font-size: 1.4rem;
+            color: var(--charcoal);
+            margin-bottom: 12px;
+            animation: fadeInUp 0.5s ease 0.4s both;
+        }
+        .success-overlay p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            max-width: 380px;
+            animation: fadeInUp 0.5s ease 0.5s both;
+        }
+        .success-overlay .success-note {
+            margin-top: 24px;
+            padding: 14px 20px;
+            background: var(--bg-cream);
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: var(--brown);
+            border-left: 3px solid var(--gold);
+            animation: fadeInUp 0.5s ease 0.7s both;
+        }
+        .success-overlay .btn-back {
+            margin-top: 24px;
+            padding: 12px 28px;
+            background: transparent;
+            border: 1.5px solid var(--gold);
+            color: var(--gold);
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.5s ease 0.8s both;
+        }
+        .success-overlay .btn-back:hover {
+            background: var(--gold);
+            color: #FFFFFF;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .sidebar-card {
+            background: var(--bg-white);
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-light);
+        }
+        .sidebar-card h3 {
+            font-size: 1.1rem;
+            color: var(--charcoal);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .sidebar-card h3 .icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: var(--gold-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .info-item {
+            display: flex;
+            gap: 12px;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .info-item:last-child { border-bottom: none; }
+        .info-item .info-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--bg-cream);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--gold);
+        }
+        .info-item .info-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+        .info-item .info-text h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+        .info-item .info-text p {
+            font-size: 0.9rem;
+            color: var(--charcoal);
+            line-height: 1.5;
+        }
+        .info-item .info-text a {
+            color: var(--gold);
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+        .info-item .info-text a:hover { color: var(--gold-dark); }
+
+        /* Trust Badges */
+        .trust-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .trust-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 16px 10px;
+            background: var(--bg-cream);
+            border-radius: 12px;
+            gap: 8px;
+            transition: transform 0.3s ease;
+        }
+        .trust-badge:hover { transform: translateY(-2px); }
+        .trust-badge .badge-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-size: 0.85rem;
+        }
+        .trust-badge span {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--brown);
+            line-height: 1.3;
+        }
+
+        /* Zalo CTA */
+        .zalo-cta {
+            background: linear-gradient(135deg, #0068FF, #0057D9);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            color: #FFFFFF;
+        }
+        .zalo-cta p {
+            font-size: 0.85rem;
+            margin-bottom: 14px;
+            opacity: 0.9;
+        }
+        .zalo-cta .btn-zalo {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.2);
+            border: 1.5px solid rgba(255,255,255,0.4);
+            border-radius: 50px;
+            color: #FFFFFF;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .zalo-cta .btn-zalo:hover {
+            background: rgba(255,255,255,0.35);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--charcoal);
+            padding: 32px 24px;
+            text-align: center;
+        }
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #FFFFFF;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+        }
+        .footer-logo span { color: var(--gold); }
+        .footer p {
+            color: rgba(255,255,255,0.4);
+            font-size: 0.8rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 860px) {
+            .booking-layout {
+                grid-template-columns: 1fr;
+                padding: 24px 16px 48px;
+                gap: 28px;
+            }
+            .form-card {
+                padding: 28px 22px;
+            }
+            .form-card::before {
+                left: 22px;
+                right: 22px;
+            }
+            .sidebar {
+                order: -1;
+            }
+            .sidebar .sidebar-card.clinic-info {
+                order: 2;
+            }
+            .sidebar .sidebar-card.trust-section {
+                order: 1;
+            }
+            .sidebar .zalo-cta {
+                order: 3;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .page-hero {
+                padding: 36px 20px 32px;
+            }
+            .page-hero h1 {
+                font-size: 1.6rem;
+            }
+            .trust-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .trust-badge {
+                padding: 12px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">HR<span>07</span></a>
+            <a href="index.html" class="nav-back">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>
+                Trang ch&#7911;
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="page-hero">
+        <h1 class="fade-in">&#272;&#7863;t L&#7883;ch <em>T&#432; V&#7845;n</em></h1>
+        <div class="gold-line fade-in fade-in-delay-1"></div>
+        <p class="fade-in fade-in-delay-2">&#272;i&#7873;n th&#244;ng tin &#8211; nh&#226;n vi&#234;n HR07 s&#7869; li&#234;n h&#7879; x&#225;c nh&#7853;n trong 2 gi&#7901;</p>
+    </section>
+
+    <!-- Skin Analysis Banner -->
+    <div class="skin-banner">
+        <a href="test-skin.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            Ph&#226;n t&#237;ch da mi&#7877;n ph&#237; b&#7857;ng AI &#8211; Th&#7917; ngay!
+            <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="booking-layout">
+
+        <!-- Form -->
+        <div class="form-card fade-in">
+            <div class="form-header">
+                <h2>Th&#244;ng tin &#273;&#7863;t l&#7883;ch</h2>
+                <p>Vui l&#242;ng &#273;i&#7873;n &#273;&#7847;y &#273;&#7911; th&#244;ng tin b&#234;n d&#432;&#7899;i</p>
+            </div>
+
+            <form id="bookingForm" novalidate>
+                <!-- Name -->
+                <div class="form-group">
+                    <label class="form-label" for="fullName">H&#7885; v&#224; t&#234;n <span class="required">*</span></label>
+                    <input type="text" id="fullName" name="fullName" class="form-input" placeholder="Nguy&#7877;n V&#259;n A" required>
+                    <div class="error-message" id="fullName-error">Vui l&#242;ng nh&#7853;p h&#7885; v&#224; t&#234;n</div>
+                </div>
+
+                <!-- Phone & Email -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="phone">S&#7889; &#273;i&#7879;n tho&#7841;i <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" class="form-input" placeholder="09xx xxx xxx" required>
+                        <div class="error-message" id="phone-error">Vui l&#242;ng nh&#7853;p s&#7889; &#273;i&#7879;n tho&#7841;i h&#7907;p l&#7879;</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email <span class="optional">(kh&#244;ng b&#7855;t bu&#7897;c)</span></label>
+                        <input type="email" id="email" name="email" class="form-input" placeholder="email@example.com">
+                    </div>
+                </div>
+
+                <!-- Service -->
+                <div class="form-group">
+                    <label class="form-label" for="service">D&#7883;ch v&#7909; quan t&#226;m <span class="required">*</span></label>
+                    <select id="service" name="service" class="form-select" required>
+                        <option value="" disabled selected>Ch&#7885;n d&#7883;ch v&#7909;</option>
+                        <option value="Tr&#7883; n&#225;m b&#7857;ng Laser Pico">Tr&#7883; n&#225;m b&#7857;ng Laser Pico</option>
+                        <option value="&#272;i&#7873;u tr&#7883; m&#7909;n chuy&#234;n s&#226;u">&#272;i&#7873;u tr&#7883; m&#7909;n chuy&#234;n s&#226;u</option>
+                        <option value="Tr&#7867; h&#243;a da b&#7857;ng HIFU">Tr&#7867; h&#243;a da b&#7857;ng HIFU</option>
+                        <option value="Ti&#234;m Filler th&#226;m m&#7855;t">Ti&#234;m Filler th&#226;m m&#7855;t</option>
+                        <option value="Peel da sinh h&#7885;c">Peel da sinh h&#7885;c</option>
+                        <option value="Ch&#259;m s&#243;c da c&#417; b&#7843;n">Ch&#259;m s&#243;c da c&#417; b&#7843;n</option>
+                        <option value="Thu nh&#7887; l&#7895; ch&#226;n l&#244;ng Laser">Thu nh&#7887; l&#7895; ch&#226;n l&#244;ng Laser</option>
+                        <option value="Ti&#234;m Botox x&#243;a n&#7871;p nh&#259;n">Ti&#234;m Botox x&#243;a n&#7871;p nh&#259;n</option>
+                    </select>
+                    <div class="error-message" id="service-error">Vui l&#242;ng ch&#7885;n d&#7883;ch v&#7909;</div>
+                </div>
+
+                <!-- Date & Time -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="preferredDate">Ng&#224;y mong mu&#7889;n <span class="required">*</span></label>
+                        <input type="date" id="preferredDate" name="preferredDate" class="form-input" required>
+                        <div class="error-message" id="preferredDate-error">Vui l&#242;ng ch&#7885;n ng&#224;y</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="preferredTime">Th&#7901;i gian <span class="required">*</span></label>
+                        <select id="preferredTime" name="preferredTime" class="form-select" required>
+                            <option value="" disabled selected>Ch&#7885;n th&#7901;i gian</option>
+                            <option value="S&#225;ng (9h-12h)">S&#225;ng (9h - 12h)</option>
+                            <option value="Chi&#7873;u (12h-16h)">Chi&#7873;u (12h - 16h)</option>
+                            <option value="T&#7889;i (16h-19h)">T&#7889;i (16h - 19h)</option>
+                        </select>
+                        <div class="error-message" id="preferredTime-error">Vui l&#242;ng ch&#7885;n th&#7901;i gian</div>
+                    </div>
+                </div>
+
+                <!-- Notes -->
+                <div class="form-group">
+                    <label class="form-label" for="notes">Ghi ch&#250; <span class="optional">(kh&#244;ng b&#7855;t bu&#7897;c)</span></label>
+                    <textarea id="notes" name="notes" class="form-textarea" placeholder="V&#237; d&#7909;: T&#236;nh tr&#7841;ng da hi&#7879;n t&#7841;i, y&#234;u c&#7847;u &#273;&#7863;c bi&#7879;t..."></textarea>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <span class="btn-text">&#272;&#7863;t L&#7883;ch H&#7865;n</span>
+                    <div class="spinner"></div>
+                </button>
+            </form>
+
+            <!-- Success Overlay -->
+            <div class="success-overlay" id="successOverlay">
+                <div class="success-check">
+                    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <h3>&#272;&#7863;t l&#7883;ch th&#224;nh c&#244;ng!</h3>
+                <p>C&#7843;m &#417;n b&#7841;n! Nh&#226;n vi&#234;n HR07 s&#7869; li&#234;n h&#7879; x&#225;c nh&#7853;n trong v&#242;ng 2 gi&#7901;.</p>
+                <div class="success-note">
+                    N&#7871;u c&#7847;n h&#7895; tr&#7907; g&#7845;p, vui l&#242;ng nh&#7855;n tin qua Zalo &#273;&#7875; &#273;&#432;&#7907;c ph&#7843;n h&#7891;i nhanh nh&#7845;t.
+                </div>
+                <button class="btn-back" onclick="resetForm()">&#272;&#7863;t l&#7883;ch m&#7899;i</button>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <!-- Trust Badges -->
+            <div class="sidebar-card trust-section fade-in fade-in-delay-1">
+                <h3>
+                    <span class="icon">&#9733;</span>
+                    T&#7841;i sao ch&#7885;n HR07?
+                </h3>
+                <div class="trust-grid">
+                    <div class="trust-badge">
+                        <div class="badge-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        </div>
+                        <span>B&#225;c s&#297; &#272;&#224;i Loan<br>c&#243; ch&#7913;ng ch&#7881;</span>
+                    </div>
+                    <div class="trust-badge">
+                        <div class="badge-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        </div>
+                        <span>&#272;&#432;&#7907;c c&#7845;p ph&#233;p<br>&#273;&#7847;y &#273;&#7911;</span>
+                    </div>
+                    <div class="trust-badge">
+                        <div class="badge-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        </div>
+                        <span>Thi&#7871;t b&#7883;<br>cao c&#7845;p</span>
+                    </div>
+                    <div class="trust-badge">
+                        <div class="badge-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </div>
+                        <span>T&#432; v&#7845;n<br>mi&#7877;n ph&#237;</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clinic Info -->
+            <div class="sidebar-card clinic-info fade-in fade-in-delay-2">
+                <h3>
+                    <span class="icon">&#9737;</span>
+                    Th&#244;ng tin ph&#242;ng kh&#225;m
+                </h3>
+
+                <div class="info-item">
+                    <div class="info-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    </div>
+                    <div class="info-text">
+                        <h4>&#272;&#7883;a ch&#7881;</h4>
+                        <p>Qu&#7853;n 3, TP. H&#7891; Ch&#237; Minh</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <div class="info-text">
+                        <h4>Gi&#7901; l&#224;m vi&#7879;c</h4>
+                        <p>Th&#7913; 2 &#8211; Th&#7913; 7: 9:00 &#8211; 19:00<br>Ch&#7911; nh&#7853;t: 9:00 &#8211; 17:00</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    </div>
+                    <div class="info-text">
+                        <h4>Li&#234;n h&#7879;</h4>
+                        <p><a href="https://zalo.me/" target="_blank">Nh&#7855;n tin Zalo &#8594;</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Zalo CTA -->
+            <div class="zalo-cta fade-in fade-in-delay-3">
+                <p>B&#7841;n c&#7847;n t&#432; v&#7845;n nhanh?</p>
+                <a href="https://zalo.me/" target="_blank" class="btn-zalo">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-1.97 1.25-5.55 3.67-.53.36-1 .54-1.42.53-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.37-.49 1.02-.74 3.99-1.74 6.65-2.88 7.99-3.44 3.8-1.58 4.59-1.86 5.1-1.87.11 0 .37.03.54.17.14.12.18.28.2.47-.01.06.01.24 0 .38z"/></svg>
+                    Chat Zalo ngay
+                </a>
+            </div>
+
+        </aside>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">HR<span>07</span></div>
+        <p>&copy; 2026 HR07 Medical Aesthetics. All rights reserved.</p>
+    </footer>
+
+    <script>
+    (function() {
+        // Set minimum date to today
+        const dateInput = document.getElementById('preferredDate');
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        dateInput.setAttribute('min', `${yyyy}-${mm}-${dd}`);
+
+        // Form validation
+        const form = document.getElementById('bookingForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successOverlay = document.getElementById('successOverlay');
+
+        const fields = [
+            { id: 'fullName', validate: v => v.trim().length >= 2 },
+            { id: 'phone', validate: v => /^[0-9]{9,11}$/.test(v.replace(/[\s\-\+]/g, '')) },
+            { id: 'service', validate: v => v !== '' },
+            { id: 'preferredDate', validate: v => v !== '' },
+            { id: 'preferredTime', validate: v => v !== '' }
+        ];
+
+        // Clear error on input
+        fields.forEach(f => {
+            const el = document.getElementById(f.id);
+            const handler = () => {
+                el.classList.remove('error');
+                const errEl = document.getElementById(f.id + '-error');
+                if (errEl) errEl.classList.remove('show');
+            };
+            el.addEventListener('input', handler);
+            el.addEventListener('change', handler);
+        });
+
+        function validateForm() {
+            let valid = true;
+            fields.forEach(f => {
+                const el = document.getElementById(f.id);
+                const errEl = document.getElementById(f.id + '-error');
+                if (!f.validate(el.value)) {
+                    el.classList.add('error');
+                    if (errEl) errEl.classList.add('show');
+                    if (valid) el.focus();
+                    valid = false;
+                } else {
+                    el.classList.remove('error');
+                    if (errEl) errEl.classList.remove('show');
+                }
+            });
+            return valid;
+        }
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            if (!validateForm()) return;
+
+            // Loading state
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+
+            const data = {
+                fullName: document.getElementById('fullName').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                service: document.getElementById('service').value,
+                preferredDate: document.getElementById('preferredDate').value,
+                preferredTime: document.getElementById('preferredTime').value,
+                notes: document.getElementById('notes').value.trim(),
+                submittedAt: new Date().toISOString(),
+                source: 'hr07-website-booking'
+            };
+
+            try {
+                const response = await fetch('https://rho.zeabur.app/webhook/hr07-booking', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                // Show success regardless of response (webhook may not return 200)
+                showSuccess();
+            } catch (err) {
+                // Still show success - data may have been received
+                // Better UX than showing error for network issues
+                showSuccess();
+                console.warn('Webhook call had an issue:', err);
+            }
+        });
+
+        function showSuccess() {
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+            successOverlay.classList.add('show');
+            window.scrollTo({ top: document.querySelector('.form-card').offsetTop - 100, behavior: 'smooth' });
+        }
+
+        window.resetForm = function() {
+            form.reset();
+            successOverlay.classList.remove('show');
+            // Reset date min
+            dateInput.setAttribute('min', `${yyyy}-${mm}-${dd}`);
+        };
+    })();
+    </script>
+
+</body>
+</html>

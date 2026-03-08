@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HR07 - AI Phân Tích Da Miễn Phí</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #faf9f7; color: #333; min-height: 100vh; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap');
+
+  .container { max-width: 480px; margin: 0 auto; padding: 20px; }
+
+  .header {
+    text-align: center;
+    padding: 40px 0 30px;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+  }
+  .header .accent { color: #C9A96E; }
+  .header p {
+    color: #888;
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  .card {
+    background: white;
+    border-radius: 16px;
+    padding: 32px 24px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+    margin-bottom: 20px;
+  }
+
+  .upload-area {
+    border: 2px dashed #C9A96E;
+    border-radius: 12px;
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .upload-area:hover { background: #fdf8f0; }
+  .upload-area.has-image { border-style: solid; padding: 0; }
+  .upload-area img {
+    max-width: 100%;
+    border-radius: 10px;
+    display: none;
+  }
+  .upload-area.has-image img { display: block; }
+  .upload-area.has-image .upload-text { display: none; }
+
+  .upload-icon { font-size: 48px; margin-bottom: 12px; }
+  .upload-text h3 { font-size: 16px; margin-bottom: 8px; color: #333; }
+  .upload-text p { font-size: 13px; color: #999; }
+
+  input[type="file"] { display: none; }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #666;
+    margin-bottom: 6px;
+  }
+  .form-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: border-color 0.3s;
+  }
+  .form-group input:focus {
+    outline: none;
+    border-color: #C9A96E;
+  }
+
+  .btn-submit {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #C9A96E, #b8944f);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 8px;
+  }
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(201, 169, 110, 0.4);
+  }
+  .btn-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .result {
+    display: none;
+    margin-top: 20px;
+  }
+  .result.show { display: block; }
+  .result h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    margin-bottom: 16px;
+    color: #1a1a1a;
+  }
+  .result-content {
+    background: #fdf8f0;
+    border-radius: 12px;
+    padding: 20px;
+    white-space: pre-wrap;
+    line-height: 1.7;
+    font-size: 14px;
+  }
+
+  .loading {
+    display: none;
+    text-align: center;
+    padding: 40px;
+  }
+  .loading.show { display: block; }
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #f0e6d3;
+    border-top-color: #C9A96E;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading p { color: #888; font-size: 14px; }
+
+  .footer {
+    text-align: center;
+    padding: 20px;
+    color: #ccc;
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>HR<span class="accent">07</span></h1>
+    <p>Phân tích da bằng AI · Miễn phí</p>
+  </div>
+
+  <div class="card">
+    <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+      <div class="upload-text">
+        <div class="upload-icon">📸</div>
+        <h3>Chụp ảnh selfie của bạn</h3>
+        <p>Nhấn để chọn ảnh hoặc chụp trực tiếp</p>
+      </div>
+      <img id="preview" alt="Preview">
+    </div>
+    <input type="file" id="fileInput" accept="image/*" capture="user" onchange="handleFile(this)">
+
+    <div class="form-group">
+      <label>Tên của bạn</label>
+      <input type="text" id="userName" placeholder="Ví dụ: Nguyễn Văn A">
+    </div>
+
+    <button class="btn-submit" id="submitBtn" onclick="submitAnalysis()">
+      🔬 Phân tích da ngay
+    </button>
+
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p>Đang phân tích làn da của bạn...</p>
+      <p style="font-size:12px; color:#bbb; margin-top:8px;">Thường mất 15-30 giây</p>
+    </div>
+
+    <div class="result" id="result">
+      <h3>Kết quả phân tích</h3>
+      <div class="result-content" id="resultContent"></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    HR07 Thẩm Mỹ Y Khoa · Quận 3, TP.HCM<br>
+    Đây là bản test · Kết quả chỉ mang tính tham khảo
+  </div>
+</div>
+
+<script>
+let selectedFile = null;
+
+function handleFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  selectedFile = file;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const preview = document.getElementById('preview');
+    preview.src = e.target.result;
+    document.getElementById('uploadArea').classList.add('has-image');
+  };
+  reader.readAsDataURL(file);
+}
+
+async function submitAnalysis() {
+  if (!selectedFile) {
+    alert('Vui lòng chọn ảnh trước!');
+    return;
+  }
+
+  const name = document.getElementById('userName').value || 'Bạn';
+  const btn = document.getElementById('submitBtn');
+  const loading = document.getElementById('loading');
+  const result = document.getElementById('result');
+
+  btn.disabled = true;
+  btn.textContent = 'Đang xử lý...';
+  loading.classList.add('show');
+  result.classList.remove('show');
+
+  try {
+    // Convert image to base64
+    const base64 = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target.result.split(',')[1]);
+      reader.readAsDataURL(selectedFile);
+    });
+
+    // Send to n8n webhook
+    const webhookUrl = 'https://rho.zeabur.app/webhook/skin-test';
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        event_name: 'web_skin_test',
+        sender: { id: 'web_test_' + Date.now(), display_name: name },
+        image_base64: base64,
+        image_filename: selectedFile.name
+      })
+    });
+
+    const data = await response.json();
+
+    loading.classList.remove('show');
+    result.classList.add('show');
+    document.getElementById('resultContent').textContent = data.report || data.message || JSON.stringify(data, null, 2);
+
+  } catch (err) {
+    loading.classList.remove('show');
+    result.classList.add('show');
+    document.getElementById('resultContent').textContent =
+      '⚠️ Lỗi kết nối. Vui lòng thử lại sau.\n\nChi tiết: ' + err.message +
+      '\n\n💡 Lưu ý: Hệ thống cần Face++ API key để hoạt động. Vui lòng đăng ký tại faceplusplus.com';
+  }
+
+  btn.disabled = false;
+  btn.textContent = '🔬 Phân tích da ngay';
+}
+</script>
+
+</body>
+</html>

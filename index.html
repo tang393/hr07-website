@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HR07 Beauty Clinic | Nơi vẻ đẹp được nâng tầm - Quận 3, TP.HCM</title>
     <meta name="description" content="HR07 Beauty Clinic - Thẩm mỹ cao cấp với chuyên môn bác sĩ Đài Loan tại Quận 3, TP.HCM. Nơi vẻ đẹp được nâng tầm.">
+    <!-- Google Analytics GA4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
@@ -86,19 +94,6 @@
         @keyframes blob-morph {
             0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
             50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
-        }
-        @keyframes spin-slow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        @keyframes shimmer {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
-        }
-        @keyframes gold-flow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
         @keyframes led-pulse {
             0%, 100% { opacity: 0.4; }
@@ -1045,6 +1040,595 @@
                 margin-top: 0.5rem;
             }
         }
+
+        /* ===== DOCTOR SECTION ===== */
+        .doctor-section {
+            background: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        .doctor-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+            align-items: center;
+            margin-top: 3rem;
+        }
+        .doctor-photo {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 3/4;
+            max-width: 360px;
+            margin: 0 auto;
+            border-radius: 20px;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--cream) 0%, rgba(201,169,110,0.1) 100%);
+            border: 1px solid rgba(201,169,110,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .doctor-photo-placeholder-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(201,169,110,0.2), rgba(201,169,110,0.08));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .doctor-photo-placeholder-icon svg {
+            width: 40px;
+            height: 40px;
+            stroke: var(--gold);
+            fill: none;
+            stroke-width: 1.5;
+        }
+        .doctor-photo-placeholder-text {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.8rem;
+            color: var(--taupe);
+            letter-spacing: 1px;
+        }
+        .doctor-info h3 {
+            font-size: 1.8rem;
+            color: var(--brown);
+            margin-bottom: 0.3rem;
+        }
+        .doctor-info .doctor-title-en {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.9rem;
+            color: var(--taupe);
+            margin-bottom: 1.2rem;
+            letter-spacing: 0.5px;
+        }
+        .doctor-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(201,169,110,0.15), rgba(201,169,110,0.05));
+            border: 1px solid rgba(201,169,110,0.3);
+            color: var(--gold-dark);
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            margin-bottom: 1.5rem;
+        }
+        .doctor-info p {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.95rem;
+            color: var(--taupe);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        .doctor-specialties {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .doctor-specialty {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.9rem;
+            color: var(--brown);
+        }
+        .doctor-specialty-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(201,169,110,0.12), rgba(201,169,110,0.04));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .doctor-specialty-icon svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--gold);
+            fill: none;
+            stroke-width: 1.5;
+        }
+        @media (max-width: 768px) {
+            .doctor-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .doctor-photo {
+                max-width: 280px;
+            }
+        }
+
+        /* ===== BEFORE/AFTER SECTION ===== */
+        .ba-section {
+            background: var(--cream);
+            position: relative;
+        }
+        .ba-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .ba-card {
+            border-radius: 20px;
+            overflow: hidden;
+            background: var(--white);
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition);
+        }
+        .ba-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+        }
+        .ba-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            position: relative;
+        }
+        .ba-img-placeholder {
+            aspect-ratio: 3/4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 0.5rem;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .ba-img-placeholder.before {
+            background: linear-gradient(135deg, #e8e2da, #d9d1c7);
+            color: var(--brown);
+        }
+        .ba-img-placeholder.after {
+            background: linear-gradient(135deg, rgba(201,169,110,0.2), rgba(201,169,110,0.1));
+            color: var(--gold-dark);
+        }
+        .ba-img-placeholder svg {
+            width: 32px;
+            height: 32px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.5;
+            opacity: 0.5;
+        }
+        .ba-divider {
+            position: absolute;
+            top: 0; bottom: 0;
+            left: 50%;
+            width: 3px;
+            background: var(--gold);
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+        .ba-divider::after {
+            content: 'VS';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--gold);
+            color: var(--dark);
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 4px 6px;
+            border-radius: 4px;
+            letter-spacing: 1px;
+        }
+        .ba-card-info {
+            padding: 1.2rem;
+            text-align: center;
+        }
+        .ba-card-info h4 {
+            font-size: 0.95rem;
+            color: var(--brown);
+            margin-bottom: 0.3rem;
+        }
+        .ba-card-info p {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.8rem;
+            color: var(--taupe);
+        }
+        @media (max-width: 768px) {
+            .ba-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 480px) {
+            .ba-grid { grid-template-columns: 1fr; max-width: 360px; margin-left: auto; margin-right: auto; }
+        }
+
+        /* ===== TRUST SIGNALS SECTION ===== */
+        .trust-section {
+            background: linear-gradient(135deg, var(--dark), var(--dark-lighter));
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        .trust-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 30% 50%, rgba(201,169,110,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 30%, rgba(201,169,110,0.04) 0%, transparent 40%);
+        }
+        .trust-section .section-label { color: var(--gold-light); }
+        .trust-section .section-title { color: var(--white); }
+        .trust-section .section-desc { color: rgba(255,255,255,0.7); }
+        .trust-categories {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+            margin-top: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+        .trust-category h3 {
+            font-size: 1rem;
+            color: var(--gold);
+            margin-bottom: 1.2rem;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        .trust-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1rem;
+            background: rgba(201,169,110,0.06);
+            border: 1px solid rgba(201,169,110,0.12);
+            border-radius: 12px;
+            transition: var(--transition);
+        }
+        .trust-item:hover {
+            background: rgba(201,169,110,0.12);
+            border-color: rgba(201,169,110,0.25);
+        }
+        .trust-item-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(201,169,110,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .trust-item-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--gold);
+            fill: none;
+            stroke-width: 1.5;
+        }
+        .trust-item span {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.85);
+        }
+        .trust-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 3rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid rgba(201,169,110,0.15);
+            position: relative;
+            z-index: 2;
+        }
+        .trust-stat {
+            text-align: center;
+        }
+        .trust-stat-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: var(--gold);
+            line-height: 1;
+            margin-bottom: 0.3rem;
+        }
+        .trust-stat-label {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.55);
+            letter-spacing: 0.5px;
+        }
+        @media (max-width: 768px) {
+            .trust-categories { grid-template-columns: 1fr; }
+            .trust-stats { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* ===== TESTIMONIALS SECTION ===== */
+        .testimonials-section {
+            background: var(--white);
+            position: relative;
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .testimonial-card {
+            background: var(--cream);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: var(--transition);
+            position: relative;
+        }
+        .testimonial-card::before {
+            content: '\201C';
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            color: var(--gold);
+            opacity: 0.3;
+            position: absolute;
+            top: 0.5rem;
+            left: 1.2rem;
+            line-height: 1;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-card);
+        }
+        .testimonial-stars {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 1rem;
+        }
+        .testimonial-stars svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--gold);
+        }
+        .testimonial-text {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.9rem;
+            color: var(--brown);
+            line-height: 1.8;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .testimonial-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(201,169,110,0.2), rgba(201,169,110,0.08));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .testimonial-avatar span {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: var(--gold-dark);
+            font-weight: 600;
+        }
+        .testimonial-author-info h4 {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--brown);
+        }
+        .testimonial-author-info p {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.75rem;
+            color: var(--taupe);
+        }
+        @media (max-width: 768px) {
+            .testimonials-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ===== FAQ SECTION ===== */
+        .faq-section {
+            background: var(--cream);
+            position: relative;
+        }
+        .faq-list {
+            max-width: 800px;
+            margin: 3rem auto 0;
+        }
+        .faq-item {
+            background: var(--white);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition);
+        }
+        .faq-item:hover {
+            box-shadow: var(--shadow-card);
+        }
+        .faq-question {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.3rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            gap: 1rem;
+        }
+        .faq-question h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--brown);
+            flex: 1;
+        }
+        .faq-question .faq-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(201,169,110,0.15), rgba(201,169,110,0.05));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: transform 0.3s;
+        }
+        .faq-question .faq-icon svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--gold);
+            fill: none;
+            stroke-width: 2;
+            transition: transform 0.3s;
+        }
+        .faq-item.active .faq-icon {
+            background: var(--gold);
+        }
+        .faq-item.active .faq-icon svg {
+            stroke: var(--dark);
+            transform: rotate(45deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+        }
+        .faq-answer-inner {
+            padding: 0 1.5rem 1.5rem;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.9rem;
+            color: var(--taupe);
+            line-height: 1.8;
+        }
+
+        /* ===== HERO VIDEO PLACEHOLDER ===== */
+        .hero-video-placeholder {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(26,26,30,0.92), rgba(26,26,30,0.85));
+        }
+        .hero-video-overlay-text {
+            position: absolute;
+            bottom: 2.5rem;
+            right: 2rem;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.7rem;
+            color: rgba(201,169,110,0.3);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            z-index: 1;
+        }
+        .hero-video-grid {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 2px;
+            opacity: 0.04;
+        }
+        .hero-video-grid div {
+            border: 1px solid var(--gold);
+            border-radius: 4px;
+        }
+
+        /* ===== STICKY BOTTOM BAR (Mobile) ===== */
+        .sticky-bottom-bar {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 998;
+            background: rgba(26, 26, 30, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 0.6rem 1rem;
+            box-shadow: 0 -2px 20px rgba(0,0,0,0.3);
+        }
+        .sticky-bottom-inner {
+            display: flex;
+            gap: 0.8rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .sticky-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            padding: 0.7rem 1rem;
+            border-radius: 12px;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+        }
+        .sticky-btn-zalo {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--dark);
+        }
+        .sticky-btn-phone {
+            background: rgba(201,169,110,0.15);
+            border: 1px solid rgba(201,169,110,0.4);
+            color: var(--gold);
+        }
+        .sticky-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+        .sticky-btn-zalo svg { fill: var(--dark); }
+        .sticky-btn-phone svg { stroke: var(--gold); fill: none; stroke-width: 2; }
+        @media (max-width: 768px) {
+            .sticky-bottom-bar { display: block; }
+            .zalo-float { bottom: 80px; }
+            footer { padding-bottom: 5rem; }
+        }
     </style>
 </head>
 <body>
@@ -1059,14 +1643,15 @@
         <ul class="nav-links">
             <li><a href="#about" data-i18n="nav_about">Giới thiệu</a></li>
             <li><a href="#services" data-i18n="nav_services">Dịch vụ</a></li>
+            <li><a href="#doctor" data-i18n="nav_doctor">Bác sĩ</a></li>
             <li><a href="#space" data-i18n="nav_space">Không gian</a></li>
             <li><a href="#ai-skin" data-i18n="nav_ai_skin">AI Skin</a></li>
             <li><a href="#contact" data-i18n="nav_contact">Liên hệ</a></li>
             <li class="lang-switcher">
                 <button class="lang-btn active" data-lang="vi" onclick="setLanguage('vi')">VI</button>
                 <button class="lang-btn" data-lang="zh" onclick="setLanguage('zh')">中</button>
-                <button class="lang-btn" data-lang="ja" onclick="setLanguage('ja')">JP</button>
-                <button class="lang-btn" data-lang="ko" onclick="setLanguage('ko')">KR</button>
+                <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+                <button class="lang-btn" data-lang="ko" onclick="setLanguage('ko')">한</button>
             </li>
             <li><a href="test-skin.html" class="nav-cta" data-i18n="nav_skin_test">Phân tích da</a></li>
         </ul>
@@ -1075,6 +1660,14 @@
 
 <!-- ===== HERO ===== -->
 <section class="hero">
+    <!-- Video placeholder background -->
+    <div class="hero-video-placeholder">
+        <div class="hero-video-grid">
+            <div></div><div></div><div></div><div></div><div></div><div></div>
+        </div>
+        <span class="hero-video-overlay-text">Clinic video coming soon</span>
+    </div>
+
     <!-- Gold ambient glows -->
     <div class="hero-glow hero-glow-1"></div>
     <div class="hero-glow hero-glow-2"></div>
@@ -1162,7 +1755,7 @@
                 </div>
                 <h3 data-i18n="service1_name">Tiêm Botox</h3>
                 <p class="service-desc" data-i18n="service1_desc">Xóa nếp nhăn, thon gọn hàm, giảm tiết mồ hôi hiệu quả</p>
-                <span class="service-price" data-i18n="service1_price">3.000.000 - 8.000.000đ</span>
+                <span class="service-price" data-i18n="service1_price">Từ 3.000.000 VND</span>
             </div>
 
             <div class="service-card reveal reveal-delay-1">
@@ -1171,7 +1764,7 @@
                 </div>
                 <h3 data-i18n="service2_name">Tiêm Filler</h3>
                 <p class="service-desc" data-i18n="service2_desc">Nâng mũi, làm đầy rãnh cười, tạo hình môi tự nhiên</p>
-                <span class="service-price" data-i18n="service2_price">5.000.000 - 15.000.000đ</span>
+                <span class="service-price" data-i18n="service2_price">Từ 5.000.000 VND</span>
             </div>
 
             <div class="service-card reveal reveal-delay-2">
@@ -1180,7 +1773,7 @@
                 </div>
                 <h3 data-i18n="service3_name">Chỉ Collagen</h3>
                 <p class="service-desc" data-i18n="service3_desc">Nâng cơ, căng da không phẫu thuật, trẻ hóa toàn diện</p>
-                <span class="service-price" data-i18n="service3_price">8.000.000 - 25.000.000đ</span>
+                <span class="service-price" data-i18n="service3_price">Từ 8.000.000 VND</span>
             </div>
 
             <div class="service-card reveal">
@@ -1189,7 +1782,7 @@
                 </div>
                 <h3 data-i18n="service4_name">Laser Trị Nám</h3>
                 <p class="service-desc" data-i18n="service4_desc">Công nghệ Pico laser xóa nám, tàn nhang, đốm nâu</p>
-                <span class="service-price" data-i18n="service4_price">3.000.000 - 10.000.000đ</span>
+                <span class="service-price" data-i18n="service4_price">Từ 3.000.000 VND</span>
             </div>
 
             <div class="service-card reveal reveal-delay-1">
@@ -1198,7 +1791,7 @@
                 </div>
                 <h3 data-i18n="service5_name">Skinbooster</h3>
                 <p class="service-desc" data-i18n="service5_desc">Cấp ẩm sâu, cải thiện kết cấu da từ bên trong</p>
-                <span class="service-price" data-i18n="service5_price">4.000.000 - 12.000.000đ</span>
+                <span class="service-price" data-i18n="service5_price">Từ 4.000.000 VND</span>
             </div>
 
             <div class="service-card reveal reveal-delay-2">
@@ -1207,7 +1800,7 @@
                 </div>
                 <h3 data-i18n="service6_name">Peel Da Sinh Học</h3>
                 <p class="service-desc" data-i18n="service6_desc">Tái tạo bề mặt da, thu nhỏ lỗ chân lông, sáng da</p>
-                <span class="service-price" data-i18n="service6_price">2.000.000 - 5.000.000đ</span>
+                <span class="service-price" data-i18n="service6_price">Từ 2.000.000 VND</span>
             </div>
 
             <div class="service-card reveal">
@@ -1216,7 +1809,7 @@
                 </div>
                 <h3 data-i18n="service7_name">Mesotherapy</h3>
                 <p class="service-desc" data-i18n="service7_desc">Vi điểm dưỡng chất, trẻ hóa & phục hồi da toàn diện</p>
-                <span class="service-price" data-i18n="service7_price">3.000.000 - 8.000.000đ</span>
+                <span class="service-price" data-i18n="service7_price">Từ 3.000.000 VND</span>
             </div>
 
             <div class="service-card reveal reveal-delay-1">
@@ -1225,13 +1818,140 @@
                 </div>
                 <h3 data-i18n="service8_name">Trị Mụn Chuyên Sâu</h3>
                 <p class="service-desc" data-i18n="service8_desc">Kết hợp laser, thuốc & liệu trình cá nhân hóa</p>
-                <span class="service-price" data-i18n="service8_price">2.000.000 - 7.000.000đ</span>
+                <span class="service-price" data-i18n="service8_price">Từ 2.000.000 VND</span>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Cream to white transition -->
+<div class="section-transition cream-to-white"></div>
+
+<!-- ===== DOCTOR ===== -->
+<section class="doctor-section section-pad" id="doctor">
+    <div class="container">
+        <div style="text-align: center;">
+            <p class="section-label reveal" data-i18n="doctor_label">Bác sĩ</p>
+            <h2 class="section-title reveal" data-i18n="doctor_title">Bác sĩ Đài Loan trực tiếp thực hiện</h2>
+            <p class="section-desc reveal" data-i18n="doctor_desc">Tại HR07, mọi liệu trình đều được bác sĩ chuyên khoa từ Đài Loan trực tiếp tư vấn và thực hiện — đảm bảo kỹ thuật chính xác và kết quả an toàn nhất.</p>
+        </div>
+
+        <div class="doctor-grid">
+            <!-- Photo placeholder -->
+            <div class="doctor-photo reveal">
+                <div class="doctor-photo-placeholder-icon">
+                    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <span class="doctor-photo-placeholder-text">Photo coming soon</span>
+            </div>
+
+            <!-- Doctor info -->
+            <div class="doctor-info reveal reveal-delay-1">
+                <div class="doctor-badge" data-i18n="doctor_badge">Bác sĩ Đài Loan</div>
+                <h3 data-i18n="doctor_name">Bác sĩ Trịnh Chí Hoành</h3>
+                <p class="doctor-title-en">Dr. Cheng Chih-Hung</p>
+                <p data-i18n="doctor_bio">Bác sĩ ngoại khoa chuyên khoa từ Đài Loan với hơn 15 năm kinh nghiệm trong lĩnh vực thẩm mỹ y khoa. Từng làm việc tại các bệnh viện và trung tâm thẩm mỹ hàng đầu Đài Loan trước khi đến Việt Nam, mang theo kỹ thuật tiên tiến và triết lý làm đẹp tự nhiên.</p>
+
+                <div class="doctor-specialties">
+                    <div class="doctor-specialty">
+                        <div class="doctor-specialty-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                        </div>
+                        <span data-i18n="doctor_spec1">Vi chỉnh hình tiêm (Botox, Filler)</span>
+                    </div>
+                    <div class="doctor-specialty">
+                        <div class="doctor-specialty-icon">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                        </div>
+                        <span data-i18n="doctor_spec2">Laser quang trị liệu</span>
+                    </div>
+                    <div class="doctor-specialty">
+                        <div class="doctor-specialty-icon">
+                            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>
+                        </div>
+                        <span data-i18n="doctor_spec3">Y học chống lão hóa</span>
+                    </div>
+                    <div class="doctor-specialty">
+                        <div class="doctor-specialty-icon">
+                            <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                        </div>
+                        <span data-i18n="doctor_spec4">Hơn 15 năm kinh nghiệm lâm sàng</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- White to cream transition -->
+<div class="section-transition" style="height:80px; background: linear-gradient(to bottom, var(--white), var(--cream));"></div>
+
+<!-- ===== BEFORE / AFTER ===== -->
+<section class="ba-section section-pad" id="before-after">
+    <div class="container" style="text-align: center;">
+        <p class="section-label reveal" data-i18n="ba_label">Kết quả</p>
+        <h2 class="section-title reveal" data-i18n="ba_title">Hình ảnh trước & sau</h2>
+        <p class="section-desc reveal" data-i18n="ba_desc">Những ca điều trị thực tế tại HR07 — minh chứng rõ ràng cho kỹ thuật chuyên nghiệp và kết quả tự nhiên.</p>
+
+        <div class="ba-grid">
+            <div class="ba-card reveal">
+                <div class="ba-images">
+                    <div class="ba-img-placeholder before">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                        <span>Before</span>
+                    </div>
+                    <div class="ba-img-placeholder after">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                        <span>After</span>
+                    </div>
+                    <div class="ba-divider"></div>
+                </div>
+                <div class="ba-card-info">
+                    <h4 data-i18n="ba_case1_title">Tiêm Botox — Thon gọn hàm</h4>
+                    <p data-i18n="ba_case1_desc">Kết quả sau 2 tuần điều trị</p>
+                </div>
+            </div>
+
+            <div class="ba-card reveal reveal-delay-1">
+                <div class="ba-images">
+                    <div class="ba-img-placeholder before">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                        <span>Before</span>
+                    </div>
+                    <div class="ba-img-placeholder after">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                        <span>After</span>
+                    </div>
+                    <div class="ba-divider"></div>
+                </div>
+                <div class="ba-card-info">
+                    <h4 data-i18n="ba_case2_title">Laser Trị Nám — Pico Laser</h4>
+                    <p data-i18n="ba_case2_desc">Kết quả sau 3 lần điều trị</p>
+                </div>
+            </div>
+
+            <div class="ba-card reveal reveal-delay-2">
+                <div class="ba-images">
+                    <div class="ba-img-placeholder before">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                        <span>Before</span>
+                    </div>
+                    <div class="ba-img-placeholder after">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                        <span>After</span>
+                    </div>
+                    <div class="ba-divider"></div>
+                </div>
+                <div class="ba-card-info">
+                    <h4 data-i18n="ba_case3_title">Filler — Nâng mũi tự nhiên</h4>
+                    <p data-i18n="ba_case3_desc">Kết quả ngay sau điều trị</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Cream to white transition for space -->
 <div class="section-transition cream-to-white"></div>
 
 <!-- ===== SPACE / GALLERY ===== -->
@@ -1324,6 +2044,183 @@
 <!-- White to dark transition -->
 <div class="section-transition white-to-dark"></div>
 
+<!-- ===== TRUST SIGNALS ===== -->
+<section class="trust-section section-pad" id="trust">
+    <div class="container" style="text-align: center; position: relative; z-index: 2;">
+        <p class="section-label reveal" data-i18n="trust_label">Cam kết chất lượng</p>
+        <h2 class="section-title reveal" data-i18n="trust_title">Tiêu chuẩn quốc tế — Chất lượng đảm bảo</h2>
+        <p class="section-desc reveal" data-i18n="trust_desc">HR07 sử dụng thiết bị và sản phẩm chính hãng từ các thương hiệu hàng đầu thế giới, đảm bảo an toàn và hiệu quả tối đa.</p>
+
+        <div class="trust-categories">
+            <!-- Equipment Brands -->
+            <div class="trust-category reveal">
+                <h3 data-i18n="trust_equipment_title">Thiết bị & Công nghệ</h3>
+                <div class="trust-items">
+                    <div class="trust-item">
+                        <div class="trust-item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        </div>
+                        <span>Thermage FLX</span>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        </div>
+                        <span>Ultherapy (Merz)</span>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        </div>
+                        <span>PicoSure Laser</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products -->
+            <div class="trust-category reveal reveal-delay-1">
+                <h3 data-i18n="trust_products_title">Sản phẩm chính hãng</h3>
+                <div class="trust-items">
+                    <div class="trust-item">
+                        <div class="trust-item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                        </div>
+                        <span>Allergan (Botox, Juvederm)</span>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                        </div>
+                        <span>Galderma (Restylane)</span>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                        </div>
+                        <span>Rejuran (PN Polynucleotide)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certifications -->
+            <div class="trust-category reveal reveal-delay-2">
+                <h3 data-i18n="trust_certs_title">Chứng nhận & Tiêu chuẩn</h3>
+                <div class="trust-items">
+                    <div class="trust-item">
+                        <div class="trust-item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 15l-2 5 6-3-6-3 6 3-2-5"/><circle cx="12" cy="8" r="6"/></svg>
+                        </div>
+                        <span data-i18n="trust_cert1">Giấy phép hành nghề Bộ Y tế VN</span>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 15l-2 5 6-3-6-3 6 3-2-5"/><circle cx="12" cy="8" r="6"/></svg>
+                        </div>
+                        <span data-i18n="trust_cert2">Bác sĩ chứng nhận quốc tế</span>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 15l-2 5 6-3-6-3 6 3-2-5"/><circle cx="12" cy="8" r="6"/></svg>
+                        </div>
+                        <span data-i18n="trust_cert3">Sản phẩm FDA / CE approved</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="trust-stats">
+            <div class="trust-stat reveal">
+                <div class="trust-stat-num" data-i18n="trust_stat1_num">15+</div>
+                <div class="trust-stat-label" data-i18n="trust_stat1_label">Năm kinh nghiệm</div>
+            </div>
+            <div class="trust-stat reveal reveal-delay-1">
+                <div class="trust-stat-num" data-i18n="trust_stat2_num">5,000+</div>
+                <div class="trust-stat-label" data-i18n="trust_stat2_label">Ca điều trị thành công</div>
+            </div>
+            <div class="trust-stat reveal reveal-delay-2">
+                <div class="trust-stat-num" data-i18n="trust_stat3_num">100%</div>
+                <div class="trust-stat-label" data-i18n="trust_stat3_label">Sản phẩm chính hãng</div>
+            </div>
+            <div class="trust-stat reveal reveal-delay-3">
+                <div class="trust-stat-num" data-i18n="trust_stat4_num">4.9</div>
+                <div class="trust-stat-label" data-i18n="trust_stat4_label">Đánh giá trung bình</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Dark to white transition -->
+<div class="section-transition" style="height:80px; background: linear-gradient(to bottom, var(--dark), var(--white));"></div>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="testimonials-section section-pad" id="testimonials">
+    <div class="container" style="text-align: center;">
+        <p class="section-label reveal" data-i18n="testimonials_label">Đánh giá</p>
+        <h2 class="section-title reveal" data-i18n="testimonials_title">Khách hàng nói gì về HR07</h2>
+        <p class="section-desc reveal" data-i18n="testimonials_desc">Sự hài lòng của khách hàng là thước đo chất lượng dịch vụ của chúng tôi.</p>
+
+        <div class="testimonials-grid">
+            <div class="testimonial-card reveal">
+                <div class="testimonial-stars">
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+                <p class="testimonial-text" data-i18n="testimonial1_text">"Lần đầu tiên tôi tiêm Botox và rất lo lắng, nhưng bác sĩ tư vấn rất kỹ và thực hiện nhẹ nhàng. Kết quả tự nhiên, không ai biết tôi đã làm thẩm mỹ."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar"><span>T</span></div>
+                    <div class="testimonial-author-info">
+                        <h4 data-i18n="testimonial1_name">Thanh Trúc</h4>
+                        <p data-i18n="testimonial1_service">Tiêm Botox — Thon gọn hàm</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card reveal reveal-delay-1">
+                <div class="testimonial-stars">
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+                <p class="testimonial-text" data-i18n="testimonial2_text">"Không gian phòng khám rất đẹp và sang trọng. Nhân viên nhiệt tình, bác sĩ Đài Loan rất chuyên nghiệp. Tôi đã giới thiệu cho nhiều bạn bè."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar"><span>M</span></div>
+                    <div class="testimonial-author-info">
+                        <h4 data-i18n="testimonial2_name">Minh Anh</h4>
+                        <p data-i18n="testimonial2_service">Skinbooster — Cấp ẩm sâu</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card reveal reveal-delay-2">
+                <div class="testimonial-stars">
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+                <p class="testimonial-text" data-i18n="testimonial3_text">"Tôi bị nám nhiều năm, đã thử nhiều nơi nhưng không hiệu quả. Sau 3 lần laser tại HR07, da sáng hẳn lên. Cảm ơn bác sĩ rất nhiều!"</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar"><span>H</span></div>
+                    <div class="testimonial-author-info">
+                        <h4 data-i18n="testimonial3_name">Hồng Nhung</h4>
+                        <p data-i18n="testimonial3_service">Laser Trị Nám — Pico Laser</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- White to dark transition -->
+<div class="section-transition white-to-dark"></div>
+
 <!-- ===== AI SKIN ANALYSIS ===== -->
 <section class="ai-section section-pad" id="ai-skin">
     <div class="container" style="text-align: center; position: relative; z-index: 2;">
@@ -1356,6 +2253,70 @@
 <!-- Dark to cream transition -->
 <div class="section-transition dark-to-cream"></div>
 
+<!-- ===== FAQ ===== -->
+<section class="faq-section section-pad" id="faq">
+    <div class="container" style="text-align: center;">
+        <p class="section-label reveal" data-i18n="faq_label">Câu hỏi thường gặp</p>
+        <h2 class="section-title reveal" data-i18n="faq_title">Giải đáp thắc mắc</h2>
+        <p class="section-desc reveal" data-i18n="faq_desc">Những câu hỏi phổ biến nhất về dịch vụ và quy trình tại HR07.</p>
+
+        <div class="faq-list">
+            <div class="faq-item reveal">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    <h4 data-i18n="faq_q1">Tiêm Botox có đau không? Mất bao lâu?</h4>
+                    <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner" data-i18n="faq_a1">Tiêm Botox gần như không đau, chỉ có cảm giác châm nhẹ. Toàn bộ quá trình chỉ mất 15-20 phút. Bạn có thể trở lại sinh hoạt bình thường ngay sau đó. Kết quả thấy rõ sau 3-7 ngày và duy trì 4-6 tháng.</div>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    <h4 data-i18n="faq_q2">Tiêm filler có an toàn không? Có bị biến chứng không?</h4>
+                    <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner" data-i18n="faq_a2">HR07 chỉ sử dụng filler chính hãng Allergan và Galderma, được FDA chứng nhận. Bác sĩ có hơn 15 năm kinh nghiệm thực hiện hàng nghìn ca tiêm filler. Biến chứng rất hiếm khi có bác sĩ giỏi và sản phẩm chính hãng.</div>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    <h4 data-i18n="faq_q3">Bác sĩ Đài Loan có mặt thường xuyên không?</h4>
+                    <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner" data-i18n="faq_a3">Bác sĩ Trịnh Chí Hoành làm việc tại HR07 hầu hết các ngày trong tuần. Ngoài ra, chúng tôi còn có đội ngũ bác sĩ da liễu Việt Nam được cấp phép, đảm bảo luôn có chuyên gia tư vấn cho bạn.</div>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    <h4 data-i18n="faq_q4">HR07 có hỗ trợ ngôn ngữ nào?</h4>
+                    <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner" data-i18n="faq_a4">Chúng tôi hỗ trợ tư vấn bằng tiếng Việt, tiếng Trung (Mandarin), tiếng Anh và tiếng Hàn. Bác sĩ Đài Loan giao tiếp trực tiếp bằng tiếng Trung và tiếng Anh.</div>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    <h4 data-i18n="faq_q5">Quy trình đặt lịch hẹn như thế nào?</h4>
+                    <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner" data-i18n="faq_a5">Bạn có thể đặt lịch qua Zalo, WhatsApp hoặc gọi điện trực tiếp. Nhân viên sẽ tư vấn sơ bộ và sắp xếp lịch phù hợp. Đến phòng khám, bác sĩ sẽ thăm khám và tư vấn chi tiết trước khi bắt đầu điều trị.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ to contact transition -->
+<div class="section-transition" style="height:80px; background: linear-gradient(to bottom, var(--cream), var(--white));"></div>
+
 <!-- ===== CONTACT ===== -->
 <section class="contact section-pad" id="contact">
     <div class="container" style="text-align: center;">
@@ -1385,7 +2346,7 @@
                     <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
                 </div>
                 <h3 data-i18n="contact_zalo_title">Liên hệ Zalo</h3>
-                <p><span data-i18n="contact_zalo_text">Chat trực tiếp qua Zalo</span><br><a href="#" data-i18n="contact_zalo_link">Nhắn tin ngay</a></p>
+                <p><span data-i18n="contact_zalo_text">Chat trực tiếp qua Zalo</span><br><a href="https://zalo.me/0909123456" target="_blank" data-i18n="contact_zalo_link">Nhắn tin ngay</a></p>
             </div>
         </div>
     </div>
@@ -1401,9 +2362,23 @@
 </footer>
 
 <!-- ===== ZALO FLOATING BUTTON ===== -->
-<a href="#" class="zalo-float" aria-label="Chat Zalo">
+<a href="https://zalo.me/0909123456" target="_blank" class="zalo-float" aria-label="Chat Zalo">
     <svg viewBox="0 0 48 48"><path d="M24 4C12.95 4 4 12.95 4 24c0 6.6 3.2 12.44 8.12 16.1L10 44l4.47-2.23C17.32 43.2 20.56 44 24 44c11.05 0 20-8.95 20-20S35.05 4 24 4zm10.8 27.2c-.48 1.36-2.8 2.6-3.88 2.72-1 .12-1.96.48-6.6-1.4-5.6-2.24-9.12-7.92-9.4-8.28-.28-.36-2.24-3-2.24-5.72s1.4-4.04 1.92-4.6c.52-.56 1.12-.68 1.48-.68h1.08c.36 0 .84-.12 1.28.96.48 1.12 1.6 3.88 1.72 4.16.12.28.2.6.04.96-.16.36-.24.56-.48.88-.24.28-.52.64-.72.88-.24.28-.48.56-.2 1.08.28.52 1.24 2.04 2.64 3.32 1.84 1.64 3.36 2.16 3.84 2.4.48.24.76.2 1.04-.12.28-.32 1.2-1.4 1.52-1.88.32-.48.64-.4 1.08-.24.44.16 2.8 1.32 3.28 1.56.48.24.8.36.92.56.12.2.12 1.2-.36 2.36z"/></svg>
 </a>
+
+<!-- ===== STICKY BOTTOM BAR (Mobile) ===== -->
+<div class="sticky-bottom-bar">
+    <div class="sticky-bottom-inner">
+        <a href="https://zalo.me/0909123456" target="_blank" class="sticky-btn sticky-btn-zalo">
+            <svg viewBox="0 0 48 48"><path d="M24 4C12.95 4 4 12.95 4 24c0 6.6 3.2 12.44 8.12 16.1L10 44l4.47-2.23C17.32 43.2 20.56 44 24 44c11.05 0 20-8.95 20-20S35.05 4 24 4zm10.8 27.2c-.48 1.36-2.8 2.6-3.88 2.72-1 .12-1.96.48-6.6-1.4-5.6-2.24-9.12-7.92-9.4-8.28-.28-.36-2.24-3-2.24-5.72s1.4-4.04 1.92-4.6c.52-.56 1.12-.68 1.48-.68h1.08c.36 0 .84-.12 1.28.96.48 1.12 1.6 3.88 1.72 4.16.12.28.2.6.04.96-.16.36-.24.56-.48.88-.24.28-.52.64-.72.88-.24.28-.48.56-.2 1.08.28.52 1.24 2.04 2.64 3.32 1.84 1.64 3.36 2.16 3.84 2.4.48.24.76.2 1.04-.12.28-.32 1.2-1.4 1.52-1.88.32-.48.64-.4 1.08-.24.44.16 2.8 1.32 3.28 1.56.48.24.8.36.92.56.12.2.12 1.2-.36 2.36z"/></svg>
+            Zalo
+        </a>
+        <a href="tel:+84909123456" class="sticky-btn sticky-btn-phone">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+            Gọi ngay
+        </a>
+    </div>
+</div>
 
 <!-- ===== JAVASCRIPT ===== -->
 <script>
